@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kassenverwaltung", "Kassenverwaltung\Kassenverwaltung.csproj", "{EA6FEA18-59CD-440A-B432-ADE95070445E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA6FEA18-59CD-440A-B432-ADE95070445E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA6FEA18-59CD-440A-B432-ADE95070445E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA6FEA18-59CD-440A-B432-ADE95070445E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA6FEA18-59CD-440A-B432-ADE95070445E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA8A76FF-5920-4858-B738-9B4C8DE62048}
+	EndGlobalSection
+EndGlobal
