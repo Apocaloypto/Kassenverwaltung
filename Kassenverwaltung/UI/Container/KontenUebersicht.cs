@@ -8,6 +8,8 @@ namespace Kassenverwaltung.UI.Container
    {
       private KVManager? _dataManager;
 
+      public event EventHandler<Konto?>? SelectedKontoChanged;
+
       public KontenUebersicht()
       {
          InitializeComponent();
@@ -128,6 +130,7 @@ namespace Kassenverwaltung.UI.Container
       private void OnSelectedIndexChanged(object sender, EventArgs e)
       {
          SetButtonStates();
+         SelectedKontoChanged?.Invoke(this, GetSelectedKonto());
       }
 
       private void OnDoubleClick(object sender, EventArgs e)

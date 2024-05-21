@@ -36,9 +36,11 @@
          splitContainer1 = new SplitContainer();
          groupBox1 = new GroupBox();
          kontenUebersicht = new UI.Container.KontenUebersicht();
+         bewegungsUebersicht = new UI.Container.BewegungsUebersicht();
          menuStrip1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
          splitContainer1.Panel1.SuspendLayout();
+         splitContainer1.Panel2.SuspendLayout();
          splitContainer1.SuspendLayout();
          groupBox1.SuspendLayout();
          SuspendLayout();
@@ -86,6 +88,7 @@
          // 
          // splitContainer1.Panel2
          // 
+         splitContainer1.Panel2.Controls.Add(bewegungsUebersicht);
          splitContainer1.Panel2.Padding = new Padding(3);
          splitContainer1.Size = new Size(800, 426);
          splitContainer1.SplitterDistance = 266;
@@ -109,6 +112,15 @@
          kontenUebersicht.Name = "kontenUebersicht";
          kontenUebersicht.Size = new Size(254, 398);
          kontenUebersicht.TabIndex = 0;
+         kontenUebersicht.SelectedKontoChanged += OnSelectedKontoChanged;
+         // 
+         // bewegungsUebersicht
+         // 
+         bewegungsUebersicht.Dock = DockStyle.Fill;
+         bewegungsUebersicht.Location = new Point(3, 3);
+         bewegungsUebersicht.Name = "bewegungsUebersicht";
+         bewegungsUebersicht.Size = new Size(524, 420);
+         bewegungsUebersicht.TabIndex = 0;
          // 
          // Form1
          // 
@@ -125,6 +137,7 @@
          menuStrip1.ResumeLayout(false);
          menuStrip1.PerformLayout();
          splitContainer1.Panel1.ResumeLayout(false);
+         splitContainer1.Panel2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
          splitContainer1.ResumeLayout(false);
          groupBox1.ResumeLayout(false);
@@ -141,5 +154,6 @@
       private SplitContainer splitContainer1;
       private GroupBox groupBox1;
       private UI.Container.KontenUebersicht kontenUebersicht;
+      private UI.Container.BewegungsUebersicht bewegungsUebersicht;
    }
 }

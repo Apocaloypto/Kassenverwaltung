@@ -1,4 +1,5 @@
 using Kassenverwaltung.Database;
+using Kassenverwaltung.Database.Models;
 using Kassenverwaltung.Util;
 
 namespace Kassenverwaltung
@@ -12,7 +13,7 @@ namespace Kassenverwaltung
 
       public Form1()
       {
-         InitializeComponent(); 
+         InitializeComponent();
          DefaultWindowTitle = Text;
       }
 
@@ -22,6 +23,7 @@ namespace Kassenverwaltung
          Text = $"{DefaultWindowTitle} - {filename}";
 
          kontenUebersicht.SetCurrentDatabase(_dataManager);
+         bewegungsUebersicht.SetCurrentDatabase(_dataManager);
       }
 
       private void OnMenuStrip_Neu(object sender, EventArgs e)
@@ -48,6 +50,11 @@ namespace Kassenverwaltung
                OpenDatabase(ofd.FileName, false);
             }
          }
+      }
+
+      private void OnSelectedKontoChanged(object sender, Konto? selectedKonto)
+      {
+         bewegungsUebersicht.SetCurrentKonto(selectedKonto);
       }
    }
 }

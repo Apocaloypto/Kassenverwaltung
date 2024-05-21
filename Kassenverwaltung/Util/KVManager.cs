@@ -35,5 +35,10 @@ namespace Kassenverwaltung.Util
       {
          // TODO!
       }
+
+      public IList<Bewegung> ListBewegungen(Konto konto)
+      {
+         return _database.Bewegungen.Select($"{nameof(Bewegung.iKonto)} = {konto.Id}");
+      }
    }
 }
