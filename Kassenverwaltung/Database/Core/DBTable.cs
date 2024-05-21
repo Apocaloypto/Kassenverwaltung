@@ -73,18 +73,6 @@ namespace Kassenverwaltung.Database.Core
          }
       }
 
-      private static bool NullableColHasValue(T obj, DBColumn col)
-      {
-         bool isNullabe = Nullable.GetUnderlyingType(col.PropertyInfo.PropertyType) != null;
-         if (!isNullabe)
-         {
-            return true;
-         }
-
-         bool hasValue = col.PropertyInfo.GetValue(obj) != null;
-         return hasValue;
-      }
-
       private static string ColumnAsParam(DBColumn col)
       {
          return $"@{col.Name}";
@@ -92,7 +80,7 @@ namespace Kassenverwaltung.Database.Core
 
       public void Insert(T obj)
       {
-         var colsToWrite = Columns.Where(c => !c.IsPrimary && NullableColHasValue(obj, c));
+         var colsToWrite = Columns.Where(c => !c.IsPrimary && c.ColumnHasValue(obj));
 
          string insertstmt = $"INSERT INTO {TableName} " +
             $"({string.Join(',', colsToWrite.Select(c => c.Name))}) " +
@@ -107,7 +95,7 @@ namespace Kassenverwaltung.Database.Core
                foreach (var col in colsToWrite)
                {
                   var sqlparam = new SqliteParameter(ColumnAsParam(col), col.SqlType);
-                  sqlparam.Value = col.PropertyInfo.GetValue(obj);
+                  sqlparam.Value = col.GetValue(obj);
 
                   command.Parameters.Add(sqlparam);
                }
@@ -123,7 +111,7 @@ namespace Kassenverwaltung.Database.Core
                {
                   int lastIdReal = (int)lastId.Value;
 
-                  PrimaryKey.PropertyInfo.SetValue(obj, lastIdReal);
+                  PrimaryKey.SetValue(obj, lastIdReal);
                }
             }
          });
@@ -131,7 +119,7 @@ namespace Kassenverwaltung.Database.Core
 
       public void Update(T obj, HashSet<string>? columnNamesToUpdate = null)
       {
-         var colsToUpdate = Columns.Where(c => !c.IsPrimary && ColInList(c) && NullableColHasValue(obj, c));
+         var colsToUpdate = Columns.Where(c => !c.IsPrimary && ColInList(c) && c.ColumnHasValue(obj));
          if (!colsToUpdate.Any())
          {
             return;
@@ -149,13 +137,13 @@ namespace Kassenverwaltung.Database.Core
                foreach (var col in colsToUpdate)
                {
                   var sqlparam = new SqliteParameter(ColumnAsParam(col), col.SqlType);
-                  sqlparam.Value = col.PropertyInfo.GetValue(obj);
+                  sqlparam.Value = col.GetValue(obj);
 
                   command.Parameters.Add(sqlparam);
                }
 
                var keyparam = new SqliteParameter(ColumnAsParam(PrimaryKey), PrimaryKey.SqlType);
-               keyparam.Value = PrimaryKey.PropertyInfo.GetValue(obj);
+               keyparam.Value = PrimaryKey.GetValue(obj);
 
                command.Parameters.Add(keyparam);
 
@@ -229,7 +217,7 @@ namespace Kassenverwaltung.Database.Core
                command.CommandText = deletestmt;
 
                var keyparam = new SqliteParameter(ColumnAsParam(PrimaryKey), PrimaryKey.SqlType);
-               keyparam.Value = PrimaryKey.PropertyInfo.GetValue(obj);
+               keyparam.Value = PrimaryKey.GetValue(obj);
 
                command.Parameters.Add(keyparam);
 
