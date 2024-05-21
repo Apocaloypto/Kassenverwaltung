@@ -169,7 +169,7 @@ namespace Kassenverwaltung.Database.Core
          }
       }
 
-      public IList<T> Select(string? filter = null, int? maxresults = null, int? skipresults = null)
+      public IList<T> Select(string? filter = null, uint? maxresults = null, uint? skipresults = null)
       {
          string selectstmt = $"SELECT {string.Join(',', Columns.Select(c => c.Name))} " +
             $"FROM {TableName} ";
