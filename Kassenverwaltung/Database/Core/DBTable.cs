@@ -2,7 +2,7 @@
 
 namespace Kassenverwaltung.Database.Core
 {
-   internal class DBTable<T> where T : class, new()
+   public class DBTable<T> where T : class, new()
    {
       private DB Database { get; }
       public string TableName { get; }

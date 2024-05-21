@@ -1,6 +1,6 @@
 ﻿namespace Kassenverwaltung.Database.Models
 {
-   internal class Konto
+   public class Konto
    {
       public int Id { get; set; }
       public string? Name { get; set; }

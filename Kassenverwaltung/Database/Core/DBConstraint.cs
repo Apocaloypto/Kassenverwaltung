@@ -2,7 +2,7 @@
 
 namespace Kassenverwaltung.Database.Core
 {
-   internal class DBConstraint<T1, T2> : IDBConstraint where T1 : class, new() where T2 : class, new()
+   public class DBConstraint<T1, T2> : IDBConstraint where T1 : class, new() where T2 : class, new()
    {
       public DBTable<T1> SourceTable { get; }
       public DBColumn SourceColumn { get; }

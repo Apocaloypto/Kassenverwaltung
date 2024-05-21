@@ -1,4 +1,5 @@
 using Kassenverwaltung.Database;
+using Kassenverwaltung.Util;
 
 namespace Kassenverwaltung
 {
@@ -6,7 +7,7 @@ namespace Kassenverwaltung
    {
       private const string FILE_FILTER = "Kassenverwaltungsdatei (*.kdb)|*.kdb";
 
-      private KVDatabase? _database;
+      private KVManager? _dataManager;
       private string DefaultWindowTitle { get; }
 
       public Form1()
@@ -15,10 +16,12 @@ namespace Kassenverwaltung
          DefaultWindowTitle = Text;
       }
 
-      private void OpenDatabase(string filename)
+      private void OpenDatabase(string filename, bool isNew)
       {
-         _database = new KVDatabase($"Data Source={filename}");
+         _dataManager = new KVManager(filename, isNew);
          Text = $"{DefaultWindowTitle} - {filename}";
+
+         kontenUebersicht.SetCurrentDatabase(_dataManager);
       }
 
       private void OnMenuStrip_Neu(object sender, EventArgs e)
@@ -29,8 +32,7 @@ namespace Kassenverwaltung
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-               OpenDatabase(sfd.FileName);
-               _database!.EnsureExists();
+               OpenDatabase(sfd.FileName, true);
             }
          }
       }
@@ -43,7 +45,7 @@ namespace Kassenverwaltung
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-               OpenDatabase(ofd.FileName);
+               OpenDatabase(ofd.FileName, false);
             }
          }
       }

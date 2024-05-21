@@ -1,6 +1,6 @@
 ﻿namespace Kassenverwaltung.Database.Models
 {
-   internal class Beleg
+   public class Beleg
    {
       public int Id { get; set; }
       public int iBewegung { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace Kassenverwaltung.Database.Models
 {
-   internal class Bewegung
+   public class Bewegung
    {
       public int Id { get; set; }
       public int iKonto { get; set; }

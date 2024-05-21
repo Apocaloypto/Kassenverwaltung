@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Kassenverwaltung.Database
 {
-   internal class KVDatabase : DB
+   public class KVDatabase : DB
    {
       public DBTable<Konto> Konten { get; }
       public DBTable<Kategorie> Kategorien { get; }

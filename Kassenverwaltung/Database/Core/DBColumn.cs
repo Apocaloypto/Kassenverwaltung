@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Kassenverwaltung.Database.Core
 {
-   internal class DBColumn
+   public class DBColumn
    {
       private const string DATETIME_FORMAT = "yyyy-MM-ddTHH:mm:ss";
 
@@ -131,8 +131,17 @@ namespace Kassenverwaltung.Database.Core
                   }
                   catch (InvalidCastException)
                   {
-                     decimal? val = (decimal?)value;
-                     PropertyInfo.SetValue(obj, val);
+                     try
+                     {
+                        double? val = (double?)value;
+                        decimal? realValue = (decimal?)val;
+                        PropertyInfo.SetValue(obj, realValue);
+                     }
+                     catch (InvalidCastException)
+                     {
+                        decimal? val = (decimal?)value;
+                        PropertyInfo.SetValue(obj, val);
+                     }
                   }
                }
                break;

@@ -2,7 +2,7 @@
 
 namespace Kassenverwaltung.Database.Core
 {
-   internal class DB
+   public class DB
    {
       private string _connectionString;
 

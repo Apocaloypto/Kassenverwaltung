@@ -1,6 +1,6 @@
 ﻿namespace Kassenverwaltung.Database.Core
 {
-   internal interface IDBConstraint
+   public interface IDBConstraint
    {
       string CreationStr { get; }
    }

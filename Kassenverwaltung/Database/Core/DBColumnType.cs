@@ -1,6 +1,6 @@
 ﻿namespace Kassenverwaltung.Database.Core
 {
-   internal enum DBColumnType
+   public enum DBColumnType
    {
       Integer,
       Float,
