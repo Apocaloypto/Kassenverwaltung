@@ -5,16 +5,18 @@ namespace Kassenverwaltung.Database.Core
 {
    internal class DBColumn
    {
+      private const string DATETIME_FORMAT = "yyyy-MM-ddTHH:mm:ss";
+
       public string Name { get; }
-      public SqliteType SqlType { get; }
       public bool IsPrimary { get; }
       private PropertyInfo PropertyInfo { get; }
+      private DBColumnType ColumnType { get; }
 
       private string SqlTypeStr
       {
          get
          {
-            switch (SqlType)
+            switch (SqliteType)
             {
                case SqliteType.Integer:
                   return "INTEGER";
@@ -25,7 +27,29 @@ namespace Kassenverwaltung.Database.Core
                case SqliteType.Blob:
                   return "BLOB";
                default:
-                  throw new InvalidOperationException($"the sql-type is unknown ({nameof(SqlType)})");
+                  throw new InvalidOperationException($"the sql-type is unknown ({nameof(SqliteType)})");
+            }
+         }
+      }
+
+      public SqliteType SqliteType
+      {
+         get
+         {
+            switch (ColumnType)
+            {
+               case DBColumnType.Integer:
+                  return SqliteType.Integer;
+               case DBColumnType.Float:
+                  return SqliteType.Real;
+               case DBColumnType.Text:
+                  return SqliteType.Text;
+               case DBColumnType.Blob:
+                  return SqliteType.Blob;
+               case DBColumnType.DateTime:
+                  return SqliteType.Text;
+               default:
+                  throw new InvalidOperationException($"the column-type {ColumnType} is not supported!");
             }
          }
       }
@@ -44,11 +68,11 @@ namespace Kassenverwaltung.Database.Core
          }
       }
 
-      public DBColumn(string name, PropertyInfo propertyInfo, SqliteType sqlType, bool isPrimary)
+      public DBColumn(string name, PropertyInfo propertyInfo, DBColumnType columnType, bool isPrimary)
       {
          Name = name;
          PropertyInfo = propertyInfo;
-         SqlType = sqlType;
+         ColumnType = columnType;
          IsPrimary = isPrimary;
       }
 
@@ -72,49 +96,98 @@ namespace Kassenverwaltung.Database.Core
          }
       }
 
-      public void SetValue(object obj, object value)
+      public void SetValue(object obj, object? value)
       {
-         switch (SqlType)
+         switch (ColumnType)
          {
-            case SqliteType.Integer:
+            case DBColumnType.Integer:
                {
-                  long val = (long)value;
-                  int realval = (int)val;
-                  PropertyInfo.SetValue(obj, realval);
+                  try
+                  {
+                     long? val = (long?)value;
+                     if (val.HasValue)
+                     {
+                        int realval = (int)val.Value;
+                        PropertyInfo.SetValue(obj, realval);
+                     }
+                     else
+                     {
+                        PropertyInfo.SetValue(obj, null);
+                     }
+                  }
+                  catch (InvalidCastException)
+                  {
+                     int? val = (int?)value;
+                     PropertyInfo.SetValue(obj, val);
+                  }
                }
                break;
-            case SqliteType.Real:
+            case DBColumnType.Float:
                {
-                  float val = (float)value;
+                  try
+                  {
+                     float? val = (float?)value;
+                     PropertyInfo.SetValue(obj, val);
+                  }
+                  catch (InvalidCastException)
+                  {
+                     decimal? val = (decimal?)value;
+                     PropertyInfo.SetValue(obj, val);
+                  }
+               }
+               break;
+            case DBColumnType.Text:
+               {
+                  string? val = (string?)value;
                   PropertyInfo.SetValue(obj, val);
                }
                break;
-            case SqliteType.Text:
+            case DBColumnType.Blob:
                {
-                  string val = (string)value;
+                  byte[]? val = (byte[]?)value;
                   PropertyInfo.SetValue(obj, val);
                }
                break;
-            case SqliteType.Blob:
+            case DBColumnType.DateTime:
                {
-                  byte[] val = (byte[])value;
-                  PropertyInfo.SetValue(obj, val);
+                  string? val = (string?)value;
+                  if (!string.IsNullOrEmpty(val))
+                  {
+                     DateTime result = DateTime.ParseExact(val, DATETIME_FORMAT, null);
+                     PropertyInfo.SetValue(obj, result);
+                  }
+                  else
+                  {
+                     PropertyInfo.SetValue(obj, null);
+                  }
                }
                break;
+            default:
+               throw new InvalidOperationException($"DB-Columntype {ColumnType} not supported ({nameof(SetValue)})!");
          }
       }
 
       public object? GetValue(object obj)
       {
-         switch (SqlType)
+         switch (ColumnType)
          {
-            case SqliteType.Integer:
-            case SqliteType.Real:
-            case SqliteType.Text:
-            case SqliteType.Blob:
+            case DBColumnType.Integer:
+            case DBColumnType.Float:
+            case DBColumnType.Text:
+            case DBColumnType.Blob:
                return PropertyInfo.GetValue(obj);
+            case DBColumnType.DateTime:
+               DateTime? dt = (DateTime?)PropertyInfo.GetValue(obj);
+               if (dt.HasValue)
+               {
+                  return dt.Value.ToString(DATETIME_FORMAT);
+               }
+               else
+               {
+                  return null;
+               }
             default:
-               return null;
+               throw new InvalidOperationException($"DB_Columntype {ColumnType} not supported ({nameof(GetValue)})");
          }
       }
    }

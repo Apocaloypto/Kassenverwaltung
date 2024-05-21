@@ -1,6 +1,5 @@
 ﻿using Kassenverwaltung.Database.Core;
 using Kassenverwaltung.Database.Models;
-using Microsoft.Data.Sqlite;
 using System.Reflection;
 
 namespace Kassenverwaltung.Database
@@ -20,9 +19,9 @@ namespace Kassenverwaltung.Database
          return propInfo;
       }
 
-      private static DBColumn MakeColumn<T>(string propertyname, SqliteType sqltype, bool isPrimary = false)
+      private static DBColumn MakeColumn<T>(string propertyname, DBColumnType columnType, bool isPrimary = false)
       {
-         return new DBColumn(propertyname, PropInfo<T>(propertyname), sqltype, isPrimary);
+         return new DBColumn(propertyname, PropInfo<T>(propertyname), columnType, isPrimary);
       }
 
       public KVDatabase(string connectionString)
@@ -30,11 +29,11 @@ namespace Kassenverwaltung.Database
       {
          Konten = new DBTable<Konto>(nameof(Konten), this, new List<DBColumn>()
          {
-            MakeColumn<Konto>(nameof(Konto.Id), SqliteType.Integer, true),
-            MakeColumn<Konto>(nameof(Konto.Name), SqliteType.Text),
-            MakeColumn<Konto>(nameof(Konto.IBAN), SqliteType.Text),
-            MakeColumn<Konto>(nameof(Konto.BIC), SqliteType.Text),
-            MakeColumn<Konto>(nameof(Konto.Anfangsbestand), SqliteType.Real),
+            MakeColumn<Konto>(nameof(Konto.Id), DBColumnType.Integer, true),
+            MakeColumn<Konto>(nameof(Konto.Name), DBColumnType.Text),
+            MakeColumn<Konto>(nameof(Konto.IBAN), DBColumnType.Text),
+            MakeColumn<Konto>(nameof(Konto.BIC), DBColumnType.Text),
+            MakeColumn<Konto>(nameof(Konto.Anfangsbestand), DBColumnType.Float),
          });
       }
 

@@ -94,7 +94,7 @@ namespace Kassenverwaltung.Database.Core
                command.CommandText = insertstmt;
                foreach (var col in colsToWrite)
                {
-                  var sqlparam = new SqliteParameter(ColumnAsParam(col), col.SqlType);
+                  var sqlparam = new SqliteParameter(ColumnAsParam(col), col.SqliteType);
                   sqlparam.Value = col.GetValue(obj);
 
                   command.Parameters.Add(sqlparam);
@@ -136,13 +136,13 @@ namespace Kassenverwaltung.Database.Core
                command.CommandText = updatestmt;
                foreach (var col in colsToUpdate)
                {
-                  var sqlparam = new SqliteParameter(ColumnAsParam(col), col.SqlType);
+                  var sqlparam = new SqliteParameter(ColumnAsParam(col), col.SqliteType);
                   sqlparam.Value = col.GetValue(obj);
 
                   command.Parameters.Add(sqlparam);
                }
 
-               var keyparam = new SqliteParameter(ColumnAsParam(PrimaryKey), PrimaryKey.SqlType);
+               var keyparam = new SqliteParameter(ColumnAsParam(PrimaryKey), PrimaryKey.SqliteType);
                keyparam.Value = PrimaryKey.GetValue(obj);
 
                command.Parameters.Add(keyparam);
@@ -216,7 +216,7 @@ namespace Kassenverwaltung.Database.Core
             {
                command.CommandText = deletestmt;
 
-               var keyparam = new SqliteParameter(ColumnAsParam(PrimaryKey), PrimaryKey.SqlType);
+               var keyparam = new SqliteParameter(ColumnAsParam(PrimaryKey), PrimaryKey.SqliteType);
                keyparam.Value = PrimaryKey.GetValue(obj);
 
                command.Parameters.Add(keyparam);

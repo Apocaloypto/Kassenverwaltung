@@ -17,7 +17,7 @@ namespace Kassenverwaltung.Database.Core
                throw new InvalidOperationException($"the targettable '{TargetTable.TableName}' does not have a primary key!");
             }
 
-            if (SourceColumn.SqlType != SqliteType.Integer)
+            if (SourceColumn.SqliteType != SqliteType.Integer)
             {
                throw new InvalidOperationException($"the sourcecolumn '{SourceColumn.Name}' has an invalid datatype (only INTEGER allowed)");
             }
