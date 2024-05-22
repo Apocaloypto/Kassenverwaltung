@@ -3,41 +3,34 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Kassenverwaltung.UI.Dialoge
 {
-   public partial class KontoEditor : Form
+   public partial class KategorieEditor : Form
    {
-      public Konto Konto { get; }
+      public Kategorie Kategorie { get; }
 
-      public KontoEditor(Konto konto)
+      public KategorieEditor(Kategorie kategorie)
       {
          InitializeComponent();
 
-         Konto = konto;
+         Kategorie = kategorie;
          SetupValues();
       }
 
       private void SetupValues()
       {
-         tbxBezeichnung.Text = Konto.Name;
-         tbxIBAN.Text = Konto.IBAN;
-         tbxBIC.Text = Konto.BIC;
-         moneyAnfang.Value = Konto.Anfangsbestand;
+         tbxBezeichnung.Text = Kategorie.Name;
       }
 
       private void ValidateInput()
       {
          if (string.IsNullOrEmpty(tbxBezeichnung.Text))
          {
-            throw new ValidationException($"Geben Sie eine Bezeichnung für das Konto an.");
+            throw new ValidationException($"Geben Sie eine Bezeichnung für die Kategorie an.");
          }
       }
 
-
       private void ApplyValues()
       {
-         Konto.Name = tbxBezeichnung.Text;
-         Konto.IBAN = tbxIBAN.Text;
-         Konto.BIC = tbxBIC.Text;
-         Konto.Anfangsbestand = moneyAnfang.Value;
+         Kategorie.Name = tbxBezeichnung.Text;
       }
 
       private void OnOK(object sender, EventArgs e)

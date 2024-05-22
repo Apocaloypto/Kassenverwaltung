@@ -31,6 +31,7 @@ namespace Kassenverwaltung.Util
       public void DeleteKonto(Konto deletedKonto)
       {
          // TODO!
+         // Alle Bewegungen des Kontos löschen, dann Konto
       }
 
       public IList<Bewegung> ListBewegungen(Konto konto)
@@ -41,6 +42,22 @@ namespace Kassenverwaltung.Util
       public IList<Kategorie> ListKategorien()
       {
          return _database.Kategorien.Select();
+      }
+
+      public void AddKategorie(Kategorie newKategorie)
+      {
+         _database.Kategorien.Insert(newKategorie);
+      }
+
+      public void UpdateKategorie(Kategorie updatedKategorie)
+      {
+         _database.Kategorien.Update(updatedKategorie);
+      }
+
+      public void DeleteKategorie(Kategorie deletedKategorie)
+      {
+         // TODO!
+         // Alle Bewegungen, in denen die Kategorie gesetzt ist auf null setzen, dann Kategorie löschen
       }
    }
 }

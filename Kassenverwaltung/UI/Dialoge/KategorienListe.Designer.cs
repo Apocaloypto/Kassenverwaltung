@@ -71,6 +71,7 @@
          btnOK.TabIndex = 0;
          btnOK.Text = "OK";
          btnOK.UseVisualStyleBackColor = true;
+         btnOK.Click += OnOK;
          // 
          // btnAdd
          // 
@@ -115,6 +116,7 @@
          lstKategorien.TabIndex = 4;
          lstKategorien.UseCompatibleStateImageBehavior = false;
          lstKategorien.View = View.List;
+         lstKategorien.SelectedIndexChanged += OnSelectedKategorieChanged;
          // 
          // KategorienListe
          // 
