@@ -1,5 +1,6 @@
 using Kassenverwaltung.Database.Models;
 using Kassenverwaltung.UI;
+using Kassenverwaltung.UI.Dialoge;
 using Kassenverwaltung.Util;
 
 namespace Kassenverwaltung
@@ -16,6 +17,8 @@ namespace Kassenverwaltung
          InitializeComponent();
          DefaultWindowTitle = Text;
 
+         SetButtonStates();
+
          if (!string.IsNullOrEmpty(filename))
          {
             OpenDatabase(filename);
@@ -29,13 +32,27 @@ namespace Kassenverwaltung
             _dataManager = new KVManager(filename);
             Text = $"{DefaultWindowTitle} - {filename}";
 
-            kontenUebersicht.SetCurrentDatabase(_dataManager);
-            bewegungsUebersicht.SetCurrentDatabase(_dataManager);
+            ReloadData();
+
+            SetButtonStates();
          }
          catch (Exception ex)
          {
             MessageService.ShowError($"Fehler beim Öffnen der Datenbank: {ex.Message}", "Fehler");
          }
+      }
+
+      private void ReloadData()
+      {
+         kontenUebersicht.SetCurrentDatabase(_dataManager);
+         bewegungsUebersicht.SetCurrentDatabase(_dataManager);
+      }
+
+      private void SetButtonStates()
+      {
+         bool databaseOpened = _dataManager != null;
+
+         kategorienToolStripMenuItem.Enabled = databaseOpened;
       }
 
       private void OnMenuStrip_Neu(object sender, EventArgs e)
@@ -67,6 +84,21 @@ namespace Kassenverwaltung
       private void OnSelectedKontoChanged(object sender, Konto? selectedKonto)
       {
          bewegungsUebersicht.SetCurrentKonto(selectedKonto);
+      }
+
+      private void OnKategorienClicked(object sender, EventArgs e)
+      {
+         if (_dataManager != null)
+         {
+            using (var dlg = new KategorienListe(_dataManager))
+            {
+               dlg.ShowDialog();
+               if (dlg.HasChanged)
+               {
+                  ReloadData();
+               }
+            }
+         }
       }
    }
 }

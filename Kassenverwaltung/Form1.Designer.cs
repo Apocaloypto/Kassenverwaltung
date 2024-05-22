@@ -37,6 +37,8 @@
          groupBox1 = new GroupBox();
          kontenUebersicht = new UI.Container.KontenUebersicht();
          bewegungsUebersicht = new UI.Container.BewegungsUebersicht();
+         extrasToolStripMenuItem = new ToolStripMenuItem();
+         kategorienToolStripMenuItem = new ToolStripMenuItem();
          menuStrip1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
          splitContainer1.Panel1.SuspendLayout();
@@ -47,7 +49,7 @@
          // 
          // menuStrip1
          // 
-         menuStrip1.Items.AddRange(new ToolStripItem[] { dateiToolStripMenuItem });
+         menuStrip1.Items.AddRange(new ToolStripItem[] { dateiToolStripMenuItem, extrasToolStripMenuItem });
          menuStrip1.Location = new Point(0, 0);
          menuStrip1.Name = "menuStrip1";
          menuStrip1.Size = new Size(800, 24);
@@ -64,14 +66,14 @@
          // neuToolStripMenuItem
          // 
          neuToolStripMenuItem.Name = "neuToolStripMenuItem";
-         neuToolStripMenuItem.Size = new Size(111, 22);
+         neuToolStripMenuItem.Size = new Size(180, 22);
          neuToolStripMenuItem.Text = "Neu";
          neuToolStripMenuItem.Click += OnMenuStrip_Neu;
          // 
          // öffnenToolStripMenuItem
          // 
          öffnenToolStripMenuItem.Name = "öffnenToolStripMenuItem";
-         öffnenToolStripMenuItem.Size = new Size(111, 22);
+         öffnenToolStripMenuItem.Size = new Size(180, 22);
          öffnenToolStripMenuItem.Text = "Öffnen";
          öffnenToolStripMenuItem.Click += OnMenuStrip_Oeffnen;
          // 
@@ -122,6 +124,20 @@
          bewegungsUebersicht.Size = new Size(524, 420);
          bewegungsUebersicht.TabIndex = 0;
          // 
+         // extrasToolStripMenuItem
+         // 
+         extrasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { kategorienToolStripMenuItem });
+         extrasToolStripMenuItem.Name = "extrasToolStripMenuItem";
+         extrasToolStripMenuItem.Size = new Size(50, 20);
+         extrasToolStripMenuItem.Text = "Extras";
+         // 
+         // kategorienToolStripMenuItem
+         // 
+         kategorienToolStripMenuItem.Name = "kategorienToolStripMenuItem";
+         kategorienToolStripMenuItem.Size = new Size(180, 22);
+         kategorienToolStripMenuItem.Text = "Kategorien";
+         kategorienToolStripMenuItem.Click += OnKategorienClicked;
+         // 
          // Form1
          // 
          AutoScaleDimensions = new SizeF(7F, 15F);
@@ -155,5 +171,7 @@
       private GroupBox groupBox1;
       private UI.Container.KontenUebersicht kontenUebersicht;
       private UI.Container.BewegungsUebersicht bewegungsUebersicht;
+      private ToolStripMenuItem extrasToolStripMenuItem;
+      private ToolStripMenuItem kategorienToolStripMenuItem;
    }
 }

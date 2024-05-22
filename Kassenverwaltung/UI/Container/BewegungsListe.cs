@@ -66,6 +66,7 @@ namespace Kassenverwaltung.UI.Container
 
       private void FillListBox()
       {
+         int? currentlySelectedBewegung = GetSelectedBewegung()?.Id;
          lstBewegungen.Items.Clear();
 
          if (_dataManager != null && _konto != null)
@@ -80,6 +81,11 @@ namespace Kassenverwaltung.UI.Container
 
             lstBewegungen.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             lstBewegungen.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            if (currentlySelectedBewegung.HasValue)
+            {
+               lstBewegungen.SelectItem((Bewegung? bewegung) => bewegung?.Id == currentlySelectedBewegung.Value);
+            }
          }
       }
 

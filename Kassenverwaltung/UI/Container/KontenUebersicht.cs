@@ -34,6 +34,7 @@ namespace Kassenverwaltung.UI.Container
 
       private void FillListBox()
       {
+         int? currentlySelectedKonto = GetSelectedKonto()?.Id;
          lstKonten.Items.Clear();
 
          if (_dataManager != null)
@@ -46,6 +47,11 @@ namespace Kassenverwaltung.UI.Container
 
             lstKonten.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             lstKonten.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            if (currentlySelectedKonto.HasValue)
+            {
+               lstKonten.SelectItem((Konto? k) => k?.Id == currentlySelectedKonto.Value);
+            }
          }
       }
 
