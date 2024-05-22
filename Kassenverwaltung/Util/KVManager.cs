@@ -7,13 +7,10 @@ namespace Kassenverwaltung.Util
    {
       private KVDatabase _database;
 
-      public KVManager(string filename, bool isNew)
+      public KVManager(string filename)
       {
          _database = new KVDatabase($"Data Source={filename}");
-         if (isNew)
-         {
-            _database.EnsureExists();
-         }
+         _database.EnsureExists();
       }
 
       public IList<Konto> ListKonten()

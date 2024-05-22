@@ -1,5 +1,5 @@
-using Kassenverwaltung.Database;
 using Kassenverwaltung.Database.Models;
+using Kassenverwaltung.UI;
 using Kassenverwaltung.Util;
 
 namespace Kassenverwaltung
@@ -11,19 +11,31 @@ namespace Kassenverwaltung
       private KVManager? _dataManager;
       private string DefaultWindowTitle { get; }
 
-      public Form1()
+      public Form1(string? filename)
       {
          InitializeComponent();
          DefaultWindowTitle = Text;
+
+         if (!string.IsNullOrEmpty(filename))
+         {
+            OpenDatabase(filename);
+         }
       }
 
-      private void OpenDatabase(string filename, bool isNew)
+      private void OpenDatabase(string filename)
       {
-         _dataManager = new KVManager(filename, isNew);
-         Text = $"{DefaultWindowTitle} - {filename}";
+         try
+         {
+            _dataManager = new KVManager(filename);
+            Text = $"{DefaultWindowTitle} - {filename}";
 
-         kontenUebersicht.SetCurrentDatabase(_dataManager);
-         bewegungsUebersicht.SetCurrentDatabase(_dataManager);
+            kontenUebersicht.SetCurrentDatabase(_dataManager);
+            bewegungsUebersicht.SetCurrentDatabase(_dataManager);
+         }
+         catch (Exception ex)
+         {
+            MessageService.ShowError($"Fehler beim Öffnen der Datenbank: {ex.Message}", "Fehler");
+         }
       }
 
       private void OnMenuStrip_Neu(object sender, EventArgs e)
@@ -34,7 +46,7 @@ namespace Kassenverwaltung
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-               OpenDatabase(sfd.FileName, true);
+               OpenDatabase(sfd.FileName);
             }
          }
       }
@@ -47,7 +59,7 @@ namespace Kassenverwaltung
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-               OpenDatabase(ofd.FileName, false);
+               OpenDatabase(ofd.FileName);
             }
          }
       }
