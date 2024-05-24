@@ -28,6 +28,7 @@
       /// </summary>
       private void InitializeComponent()
       {
+         components = new System.ComponentModel.Container();
          tableLayoutPanel1 = new TableLayoutPanel();
          btnDel = new Button();
          btnMod = new Button();
@@ -38,6 +39,7 @@
          colDateityp = new ColumnHeader();
          btnDetails = new Button();
          btnExport = new Button();
+         buttonToolTips = new ToolTip(components);
          tableLayoutPanel1.SuspendLayout();
          SuspendLayout();
          // 
@@ -170,5 +172,6 @@
       private Button btnDetails;
       private ColumnHeader colPfad;
       private Button btnExport;
+      private ToolTip buttonToolTips;
    }
 }

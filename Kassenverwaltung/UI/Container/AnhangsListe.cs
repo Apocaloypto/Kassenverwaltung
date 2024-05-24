@@ -13,6 +13,9 @@ namespace Kassenverwaltung.UI.Container
       {
          InitializeComponent();
 
+         buttonToolTips.SetToolTip(btnDetails, $"Öffnet die Datei mit dem hinterlegten Standardprogramm");
+         buttonToolTips.SetToolTip(btnExport, $"Exportiert die Datei");
+
          SetButtonStates();
       }
 
