@@ -45,11 +45,13 @@ namespace Kassenverwaltung.UI.Container
       private void SetButtonStates()
       {
          bool validContext = DataManager != null && Bewegung != null;
-         bool anhangSelected = validContext && GetSelectedBeleg() != null;
+         Beleg? selectedBeleg = GetSelectedBeleg();
+         bool anhangSelected = validContext && selectedBeleg != null;
 
          btnAdd.Enabled = validContext;
          btnMod.Enabled = anhangSelected;
          btnDetails.Enabled = anhangSelected;
+         btnExport.Enabled = validContext && selectedBeleg != null && selectedBeleg.BlobInDb;
          btnDel.Enabled = anhangSelected;
       }
 
@@ -80,6 +82,7 @@ namespace Kassenverwaltung.UI.Container
       {
          ListViewItem lvi = new ListViewItem($"{beleg.Name}");
          lvi.SubItems.Add(beleg.Pfad);
+         lvi.SubItems.Add(Path.GetExtension(beleg.Pfad));
          lvi.Tag = beleg;
 
          lstAnhaenge.Items.Add(lvi);
@@ -141,11 +144,6 @@ namespace Kassenverwaltung.UI.Container
          }
       }
 
-      private void OnClickedDetails(object sender, EventArgs e)
-      {
-         EditSelectedBeleg();
-      }
-
       private void OnSelectedIndexChanged(object sender, EventArgs e)
       {
          SetButtonStates();
@@ -153,7 +151,35 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnDoubleClick(object sender, EventArgs e)
       {
+         EditSelectedBeleg();
+      }
 
+      private void OnClickedDetails(object sender, EventArgs e)
+      {
+      }
+
+      private void OnClickedExport(object sender, EventArgs e)
+      {
+         Beleg? selectedBeleg = GetSelectedBeleg();
+         if (selectedBeleg != null && selectedBeleg.BlobInDb)
+         {
+            var dateiEndung = Path.GetExtension(selectedBeleg.Pfad);
+            if (string.IsNullOrEmpty(dateiEndung))
+            {
+               dateiEndung = ".*";
+            }
+
+            using (var sfd = new SaveFileDialog())
+            {
+               sfd.FileName = Path.GetFileNameWithoutExtension(selectedBeleg.Name);
+               sfd.Filter = $"*{dateiEndung}|*{dateiEndung}";
+
+               if (sfd.ShowDialog() == DialogResult.OK)
+               {
+                  File.WriteAllBytes(sfd.FileName, selectedBeleg.Blob!);
+               }
+            }
+         }
       }
    }
 }

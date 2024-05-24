@@ -7,5 +7,6 @@
       public string? Name { get; set; }
       public byte[]? Blob { get; set; }
       public string? Pfad { get; set; }
+      public bool BlobInDb => Blob != null && Blob.Length > 0;
    }
 }

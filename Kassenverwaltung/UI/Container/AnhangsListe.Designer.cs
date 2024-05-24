@@ -34,24 +34,28 @@
          btnAdd = new Button();
          lstAnhaenge = new ListView();
          colDateiname = new ColumnHeader();
+         colPfad = new ColumnHeader();
          colDateityp = new ColumnHeader();
          btnDetails = new Button();
+         btnExport = new Button();
          tableLayoutPanel1.SuspendLayout();
          SuspendLayout();
          // 
          // tableLayoutPanel1
          // 
-         tableLayoutPanel1.ColumnCount = 5;
+         tableLayoutPanel1.ColumnCount = 6;
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+         tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
          tableLayoutPanel1.Controls.Add(btnDel, 1, 1);
          tableLayoutPanel1.Controls.Add(btnMod, 2, 1);
-         tableLayoutPanel1.Controls.Add(btnAdd, 4, 1);
+         tableLayoutPanel1.Controls.Add(btnAdd, 5, 1);
          tableLayoutPanel1.Controls.Add(lstAnhaenge, 0, 0);
-         tableLayoutPanel1.Controls.Add(btnDetails, 3, 1);
+         tableLayoutPanel1.Controls.Add(btnDetails, 4, 1);
+         tableLayoutPanel1.Controls.Add(btnExport, 3, 1);
          tableLayoutPanel1.Dock = DockStyle.Fill;
          tableLayoutPanel1.Location = new Point(0, 0);
          tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -65,7 +69,7 @@
          // 
          btnDel.Dock = DockStyle.Fill;
          btnDel.Image = Resources.btnDel;
-         btnDel.Location = new Point(274, 239);
+         btnDel.Location = new Point(244, 239);
          btnDel.Name = "btnDel";
          btnDel.Size = new Size(24, 24);
          btnDel.TabIndex = 0;
@@ -76,7 +80,7 @@
          // 
          btnMod.Dock = DockStyle.Fill;
          btnMod.Image = Resources.btnEdit;
-         btnMod.Location = new Point(304, 239);
+         btnMod.Location = new Point(274, 239);
          btnMod.Name = "btnMod";
          btnMod.Size = new Size(24, 24);
          btnMod.TabIndex = 1;
@@ -96,8 +100,8 @@
          // 
          // lstAnhaenge
          // 
-         lstAnhaenge.Columns.AddRange(new ColumnHeader[] { colDateiname, colDateityp });
-         tableLayoutPanel1.SetColumnSpan(lstAnhaenge, 5);
+         lstAnhaenge.Columns.AddRange(new ColumnHeader[] { colDateiname, colPfad, colDateityp });
+         tableLayoutPanel1.SetColumnSpan(lstAnhaenge, 6);
          lstAnhaenge.Dock = DockStyle.Fill;
          lstAnhaenge.FullRowSelect = true;
          lstAnhaenge.Location = new Point(3, 3);
@@ -113,6 +117,10 @@
          // 
          colDateiname.Text = "Dateiname";
          // 
+         // colPfad
+         // 
+         colPfad.Text = "Dateipfad";
+         // 
          // colDateityp
          // 
          colDateityp.Text = "Dateityp";
@@ -127,6 +135,17 @@
          btnDetails.TabIndex = 4;
          btnDetails.UseVisualStyleBackColor = true;
          btnDetails.Click += OnClickedDetails;
+         // 
+         // btnExport
+         // 
+         btnExport.Dock = DockStyle.Fill;
+         btnExport.Image = Resources.btnExport;
+         btnExport.Location = new Point(304, 239);
+         btnExport.Name = "btnExport";
+         btnExport.Size = new Size(24, 24);
+         btnExport.TabIndex = 5;
+         btnExport.UseVisualStyleBackColor = true;
+         btnExport.Click += OnClickedExport;
          // 
          // AnhangsListe
          // 
@@ -149,5 +168,7 @@
       private ColumnHeader colDateiname;
       private ColumnHeader colDateityp;
       private Button btnDetails;
+      private ColumnHeader colPfad;
+      private Button btnExport;
    }
 }

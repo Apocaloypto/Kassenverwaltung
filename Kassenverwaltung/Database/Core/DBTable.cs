@@ -95,7 +95,16 @@ namespace Kassenverwaltung.Database.Core
                foreach (var col in colsToWrite)
                {
                   var sqlparam = new SqliteParameter(ColumnAsParam(col), col.SqliteType);
-                  sqlparam.Value = col.GetValue(obj);
+
+                  object? value = col.GetValue(obj);
+                  if (value != null)
+                  {
+                     sqlparam.Value = value;
+                  }
+                  else
+                  {
+                     sqlparam.Value = DBNull.Value;
+                  }
 
                   command.Parameters.Add(sqlparam);
                }
