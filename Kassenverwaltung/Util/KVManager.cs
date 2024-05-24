@@ -67,8 +67,19 @@ namespace Kassenverwaltung.Util
 
       public void DeleteKategorie(Kategorie deletedKategorie)
       {
-         // TODO!
-         // Alle Bewegungen, in denen die Kategorie gesetzt ist auf null setzen, dann Kategorie löschen
+         _database.WithOpenedConnection((connection) =>
+         {
+            using (var command = connection.CreateCommand())
+            {
+               command.CommandText = $"update {_database.Bewegungen.TableName} " +
+               $"set {nameof(Bewegung.iKategorie)} = null " +
+               $"where {nameof(Bewegung.iKategorie)} = {deletedKategorie.Id}";
+
+               command.ExecuteNonQuery();
+            }
+         });
+
+         _database.Kategorien.Delete(deletedKategorie);
       }
 
       public void AddBewegung(Bewegung newBewegung, Konto zielKonto)
