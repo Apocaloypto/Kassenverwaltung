@@ -13,6 +13,10 @@ namespace Kassenverwaltung.UI.Container
       {
          InitializeComponent();
 
+         var umbuchungsOption = new UserControls.SplitButton.Option("Umbuchung");
+         umbuchungsOption.OnClicked = OnUmbuchungButtonClicked;
+         splAdd.Options.Add(umbuchungsOption);
+
          SetButtonStates();
       }
 
@@ -47,7 +51,7 @@ namespace Kassenverwaltung.UI.Container
          bool validContext = _dataManager != null && _konto != null;
          bool bewegungSelected = validContext && GetSelectedBewegung() != null;
 
-         btnAdd.Enabled = validContext;
+         splAdd.Enabled = validContext;
          btnEdit.Enabled = bewegungSelected;
          btnDel.Enabled = bewegungSelected;
       }
@@ -108,7 +112,23 @@ namespace Kassenverwaltung.UI.Container
          }
       }
 
-      private void OnBtnClickedAdd(object sender, EventArgs e)
+      private void OnUmbuchungButtonClicked(object? sender, EventArgs? e)
+      {
+         if (_dataManager != null && _konto != null)
+         {
+            var umbuchung = new Bewegung();
+            using (var editor = new UmbuchungEditor(_dataManager, _konto, umbuchung))
+            {
+               if (editor.ShowDialog() == DialogResult.OK)
+               {
+                  _dataManager.AddUmbuchung(umbuchung);
+                  FillListBox();
+               }
+            }
+         }
+      }
+
+      private void OnMainButtonClicked(object sender, EventArgs e)
       {
          if (_dataManager != null && _konto != null)
          {
@@ -131,12 +151,26 @@ namespace Kassenverwaltung.UI.Container
             Bewegung? selectedBewegung = GetSelectedBewegung();
             if (selectedBewegung != null)
             {
-               using (var editor = new BewegungEditor(_dataManager, _konto, selectedBewegung))
+               if (selectedBewegung.Art == Bewegung.ArtEnum.EinAuszahlung)
                {
-                  if (editor.ShowDialog() == DialogResult.OK)
+                  using (var editor = new BewegungEditor(_dataManager, _konto, selectedBewegung))
                   {
-                     _dataManager.UpdateBewegung(selectedBewegung);
-                     FillListBox();
+                     if (editor.ShowDialog() == DialogResult.OK)
+                     {
+                        _dataManager.UpdateBewegung(selectedBewegung);
+                        FillListBox();
+                     }
+                  }
+               }
+               else if (selectedBewegung.Art == Bewegung.ArtEnum.Umbuchung)
+               {
+                  using (var editor = new UmbuchungEditor(_dataManager, _konto, selectedBewegung))
+                  {
+                     if (editor.ShowDialog() == DialogResult.OK)
+                     {
+                        _dataManager.UpdateUmbuchung(selectedBewegung);
+                        FillListBox();
+                     }
                   }
                }
             }
@@ -152,7 +186,15 @@ namespace Kassenverwaltung.UI.Container
             {
                if (MessageService.ShowYesNo($"Möchten Sie die ausgewählte Bewegung vom {selectedBewegung.Datum} über den Betrag von {selectedBewegung.Betrag} wirklich löschen?", "Löschen?"))
                {
-                  _dataManager.DeleteBewegung(selectedBewegung);
+                  if (selectedBewegung.Art == Bewegung.ArtEnum.EinAuszahlung)
+                  {
+                     _dataManager.DeleteBewegung(selectedBewegung);
+                  }
+                  else if (selectedBewegung.Art == Bewegung.ArtEnum.Umbuchung)
+                  {
+                     _dataManager.DeleteUmbuchung(selectedBewegung);
+                  }
+
                   FillListBox();
                }
             }

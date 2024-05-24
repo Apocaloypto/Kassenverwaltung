@@ -34,6 +34,17 @@ namespace Kassenverwaltung.Util
          // Alle Bewegungen des Kontos löschen, dann Konto
       }
 
+      public Konto? FindKontoZuBewegung(int iBewegung)
+      {
+         Bewegung? bewegung = _database.Bewegungen.Select($"{nameof(Bewegung.Id)} = {iBewegung}").FirstOrDefault();
+         if (bewegung != null)
+         {
+            return _database.Konten.Select($"{nameof(Konto.Id)} = {bewegung.iKonto}").FirstOrDefault();
+         }
+
+         return null;
+      }
+
       public IList<Bewegung> ListBewegungen(Konto konto)
       {
          return _database.Bewegungen.Select($"{nameof(Bewegung.iKonto)} = {konto.Id}");
@@ -65,14 +76,29 @@ namespace Kassenverwaltung.Util
          _database.Bewegungen.Insert(newBewegung);
       }
 
+      public void AddUmbuchung(Bewegung umbuchung)
+      {
+         // TODO
+      }
+
       public void UpdateBewegung(Bewegung updatedBewegung)
       {
          _database.Bewegungen.Update(updatedBewegung);
       }
 
+      public void UpdateUmbuchung(Bewegung updatedUmbuchung)
+      {
+         _database.Bewegungen.Update(updatedUmbuchung);
+      }
+
       public void DeleteBewegung(Bewegung deletedBewegung)
       {
          _database.Bewegungen.Delete(deletedBewegung);
+      }
+
+      internal void DeleteUmbuchung(Bewegung deletedUmbuchung)
+      {
+         _database.Bewegungen.Delete(deletedUmbuchung);
       }
    }
 }

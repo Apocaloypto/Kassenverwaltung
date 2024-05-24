@@ -1,6 +1,6 @@
 ﻿namespace Kassenverwaltung.UI.Dialoge
 {
-   partial class BewegungEditor
+   partial class UmbuchungEditor
    {
       /// <summary>
       /// Required designer variable.
@@ -33,7 +33,7 @@
          label3 = new Label();
          label2 = new Label();
          label1 = new Label();
-         cbxKategorie = new ComboBox();
+         cbxKonto = new ComboBox();
          dtpDatum = new DateTimePicker();
          monBetrag = new UserControls.MoneyInput();
          tbxVerwendung = new TextBox();
@@ -54,7 +54,7 @@
          tableLayoutPanel1.Controls.Add(label3, 0, 2);
          tableLayoutPanel1.Controls.Add(label2, 0, 1);
          tableLayoutPanel1.Controls.Add(label1, 0, 0);
-         tableLayoutPanel1.Controls.Add(cbxKategorie, 1, 0);
+         tableLayoutPanel1.Controls.Add(cbxKonto, 1, 0);
          tableLayoutPanel1.Controls.Add(dtpDatum, 1, 1);
          tableLayoutPanel1.Controls.Add(monBetrag, 1, 2);
          tableLayoutPanel1.Controls.Add(tbxVerwendung, 1, 3);
@@ -109,19 +109,19 @@
          label1.Name = "label1";
          label1.Size = new Size(144, 30);
          label1.TabIndex = 0;
-         label1.Text = "Kategorie:";
+         label1.Text = "Konto:";
          label1.TextAlign = ContentAlignment.MiddleLeft;
          // 
-         // cbxKategorie
+         // cbxKonto
          // 
-         tableLayoutPanel1.SetColumnSpan(cbxKategorie, 3);
-         cbxKategorie.Dock = DockStyle.Fill;
-         cbxKategorie.DropDownStyle = ComboBoxStyle.DropDownList;
-         cbxKategorie.FormattingEnabled = true;
-         cbxKategorie.Location = new Point(153, 3);
-         cbxKategorie.Name = "cbxKategorie";
-         cbxKategorie.Size = new Size(219, 23);
-         cbxKategorie.TabIndex = 1;
+         tableLayoutPanel1.SetColumnSpan(cbxKonto, 3);
+         cbxKonto.Dock = DockStyle.Fill;
+         cbxKonto.DropDownStyle = ComboBoxStyle.DropDownList;
+         cbxKonto.FormattingEnabled = true;
+         cbxKonto.Location = new Point(153, 3);
+         cbxKonto.Name = "cbxKonto";
+         cbxKonto.Size = new Size(219, 23);
+         cbxKonto.TabIndex = 1;
          // 
          // dtpDatum
          // 
@@ -175,7 +175,7 @@
          btnCancel.Text = "Abbrechen";
          btnCancel.UseVisualStyleBackColor = true;
          // 
-         // BewegungEditor
+         // UmbuchungEditor
          // 
          AcceptButton = btnOK;
          AutoScaleDimensions = new SizeF(7F, 15F);
@@ -183,10 +183,10 @@
          CancelButton = btnCancel;
          ClientSize = new Size(399, 321);
          Controls.Add(tableLayoutPanel1);
-         Name = "BewegungEditor";
+         Name = "UmbuchungEditor";
          ShowIcon = false;
          StartPosition = FormStartPosition.CenterParent;
-         Text = "Bewegung";
+         Text = "Umbuchung";
          tableLayoutPanel1.ResumeLayout(false);
          tableLayoutPanel1.PerformLayout();
          ResumeLayout(false);
@@ -196,7 +196,7 @@
 
       private TableLayoutPanel tableLayoutPanel1;
       private Label label1;
-      private ComboBox cbxKategorie;
+      private ComboBox cbxKonto;
       private Label label2;
       private DateTimePicker dtpDatum;
       private Label label3;

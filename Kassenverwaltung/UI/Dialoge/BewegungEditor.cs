@@ -48,15 +48,7 @@ namespace Kassenverwaltung.UI.Dialoge
          FillKategorieCombobox();
 
          cbxKategorie.SelectItem((KategorieComboboxItem item) => item.Kategorie?.Id == Bewegung.iKategorie);
-         try
-         {
-            dtpDatum.Value = Bewegung.Datum;
-         }
-         catch
-         {
-            dtpDatum.Value = DateTime.Today;
-         }
-
+         dtpDatum.SetValueSafe(Bewegung.Datum, DateTime.Today);
          monBetrag.Value = Bewegung.Betrag;
          tbxVerwendung.Text = Bewegung.Verwendung;
       }

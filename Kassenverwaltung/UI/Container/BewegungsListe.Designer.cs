@@ -36,9 +36,9 @@
          colBetrag = new ColumnHeader();
          label1 = new Label();
          tbxKontostand = new TextBox();
-         btnAdd = new Button();
          btnEdit = new Button();
          btnDel = new Button();
+         splAdd = new UserControls.SplitButton();
          tableLayoutPanel1.SuspendLayout();
          SuspendLayout();
          // 
@@ -50,13 +50,13 @@
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
-         tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+         tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
          tableLayoutPanel1.Controls.Add(lstBewegungen, 0, 0);
          tableLayoutPanel1.Controls.Add(label1, 0, 1);
          tableLayoutPanel1.Controls.Add(tbxKontostand, 1, 1);
-         tableLayoutPanel1.Controls.Add(btnAdd, 5, 1);
          tableLayoutPanel1.Controls.Add(btnEdit, 4, 1);
          tableLayoutPanel1.Controls.Add(btnDel, 3, 1);
+         tableLayoutPanel1.Controls.Add(splAdd, 5, 1);
          tableLayoutPanel1.Dock = DockStyle.Fill;
          tableLayoutPanel1.Location = new Point(0, 0);
          tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -116,22 +116,11 @@
          tbxKontostand.TabIndex = 2;
          tbxKontostand.TextAlign = HorizontalAlignment.Right;
          // 
-         // btnAdd
-         // 
-         btnAdd.Dock = DockStyle.Fill;
-         btnAdd.Image = Resources.btnAdd;
-         btnAdd.Location = new Point(453, 275);
-         btnAdd.Name = "btnAdd";
-         btnAdd.Size = new Size(24, 24);
-         btnAdd.TabIndex = 3;
-         btnAdd.UseVisualStyleBackColor = true;
-         btnAdd.Click += OnBtnClickedAdd;
-         // 
          // btnEdit
          // 
          btnEdit.Dock = DockStyle.Fill;
          btnEdit.Image = Resources.btnEdit;
-         btnEdit.Location = new Point(423, 275);
+         btnEdit.Location = new Point(403, 275);
          btnEdit.Name = "btnEdit";
          btnEdit.Size = new Size(24, 24);
          btnEdit.TabIndex = 4;
@@ -142,12 +131,22 @@
          // 
          btnDel.Dock = DockStyle.Fill;
          btnDel.Image = Resources.btnDel;
-         btnDel.Location = new Point(393, 275);
+         btnDel.Location = new Point(373, 275);
          btnDel.Name = "btnDel";
          btnDel.Size = new Size(24, 24);
          btnDel.TabIndex = 5;
          btnDel.UseVisualStyleBackColor = true;
          btnDel.Click += OnBtnClickedDel;
+         // 
+         // splAdd
+         // 
+         splAdd.Dock = DockStyle.Fill;
+         splAdd.Image = Resources.btnAdd;
+         splAdd.Location = new Point(433, 275);
+         splAdd.Name = "splAdd";
+         splAdd.Size = new Size(44, 24);
+         splAdd.TabIndex = 6;
+         splAdd.MainButtonClick += OnMainButtonClicked;
          // 
          // BewegungsListe
          // 
@@ -171,8 +170,8 @@
       private ColumnHeader colBetrag;
       private Label label1;
       private TextBox tbxKontostand;
-      private Button btnAdd;
       private Button btnEdit;
       private Button btnDel;
+      private UserControls.SplitButton splAdd;
    }
 }
