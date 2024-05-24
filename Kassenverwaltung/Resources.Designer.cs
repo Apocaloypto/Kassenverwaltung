@@ -83,6 +83,16 @@ namespace Kassenverwaltung {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap btnDetails {
+            get {
+                object obj = ResourceManager.GetObject("btnDetails", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap btnEdit {
             get {
                 object obj = ResourceManager.GetObject("btnEdit", resourceCulture);

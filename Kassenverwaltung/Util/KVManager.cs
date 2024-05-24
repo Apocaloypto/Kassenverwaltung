@@ -116,7 +116,7 @@ namespace Kassenverwaltung.Util
          _database.Bewegungen.Delete(deletedBewegung);
       }
 
-      internal void DeleteUmbuchung(Bewegung deletedUmbuchung)
+      public void DeleteUmbuchung(Bewegung deletedUmbuchung)
       {
          int? gegenBuchung = deletedUmbuchung.iBewegung;
 
@@ -129,6 +129,27 @@ namespace Kassenverwaltung.Util
          }
 
          _database.Bewegungen.Delete(deletedUmbuchung);
+      }
+
+      public IList<Beleg> ListBelege(Bewegung bewegung)
+      {
+         return _database.Belege.Select($"{nameof(Beleg.iBewegung)} = {bewegung.Id}");
+      }
+
+      public void AddBeleg(Bewegung bewegung, Beleg beleg)
+      {
+         beleg.iBewegung = bewegung.Id;
+         _database.Belege.Insert(beleg);
+      }
+
+      public void UpdateBeleg(Beleg selectedBeleg)
+      {
+         _database.Belege.Update(selectedBeleg);
+      }
+
+      public void DeleteBeleg(Beleg selectedBeleg)
+      {
+         _database.Belege.Delete(selectedBeleg);
       }
    }
 }

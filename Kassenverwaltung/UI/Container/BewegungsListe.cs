@@ -9,6 +9,8 @@ namespace Kassenverwaltung.UI.Container
       private KVManager? _dataManager;
       private Konto? _konto;
 
+      public event EventHandler<Bewegung?>? SelectedBewegungChanged;
+
       public BewegungsListe()
       {
          InitializeComponent();
@@ -209,6 +211,7 @@ namespace Kassenverwaltung.UI.Container
       private void OnSelectedIndexChanged(object sender, EventArgs e)
       {
          SetButtonStates();
+         SelectedBewegungChanged?.Invoke(this, GetSelectedBewegung());
       }
 
       private void OnDoubleClick(object sender, EventArgs e)

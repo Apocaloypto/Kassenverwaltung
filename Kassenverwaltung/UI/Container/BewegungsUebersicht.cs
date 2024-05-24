@@ -13,11 +13,17 @@ namespace Kassenverwaltung.UI.Container
       public void SetCurrentDatabase(KVManager? dataManager)
       {
          bewegungsListe.SetCurrentDatabase(dataManager);
+         anhangsListe1.SetCurrentDatabase(dataManager);
       }
 
       public void SetCurrentKonto(Konto? konto)
       {
          bewegungsListe.SetCurrentKonto(konto);
+      }
+
+      private void OnSelectedBewegungChanged(object? sender, Bewegung? selectedBewegung)
+      {
+         anhangsListe1.SetCurrentBewegung(selectedBewegung);
       }
    }
 }

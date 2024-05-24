@@ -30,13 +30,15 @@
       {
          splitContainer1 = new SplitContainer();
          groupBox1 = new GroupBox();
-         groupBox2 = new GroupBox();
          bewegungsListe = new BewegungsListe();
+         groupBox2 = new GroupBox();
+         anhangsListe1 = new AnhangsListe();
          ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
          splitContainer1.Panel1.SuspendLayout();
          splitContainer1.Panel2.SuspendLayout();
          splitContainer1.SuspendLayout();
          groupBox1.SuspendLayout();
+         groupBox2.SuspendLayout();
          SuspendLayout();
          // 
          // splitContainer1
@@ -70,8 +72,18 @@
          groupBox1.TabStop = false;
          groupBox1.Text = "Bewegungen";
          // 
+         // bewegungsListe
+         // 
+         bewegungsListe.Dock = DockStyle.Fill;
+         bewegungsListe.Location = new Point(3, 19);
+         bewegungsListe.Name = "bewegungsListe";
+         bewegungsListe.Size = new Size(451, 109);
+         bewegungsListe.TabIndex = 0;
+         bewegungsListe.SelectedBewegungChanged += OnSelectedBewegungChanged;
+         // 
          // groupBox2
          // 
+         groupBox2.Controls.Add(anhangsListe1);
          groupBox2.Dock = DockStyle.Fill;
          groupBox2.Location = new Point(3, 3);
          groupBox2.Name = "groupBox2";
@@ -80,13 +92,13 @@
          groupBox2.TabStop = false;
          groupBox2.Text = "Anhänge";
          // 
-         // bewegungsListe
+         // anhangsListe1
          // 
-         bewegungsListe.Dock = DockStyle.Fill;
-         bewegungsListe.Location = new Point(3, 19);
-         bewegungsListe.Name = "bewegungsListe";
-         bewegungsListe.Size = new Size(451, 109);
-         bewegungsListe.TabIndex = 0;
+         anhangsListe1.Dock = DockStyle.Fill;
+         anhangsListe1.Location = new Point(3, 19);
+         anhangsListe1.Name = "anhangsListe1";
+         anhangsListe1.Size = new Size(451, 129);
+         anhangsListe1.TabIndex = 0;
          // 
          // BewegungsUebersicht
          // 
@@ -100,6 +112,7 @@
          ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
          splitContainer1.ResumeLayout(false);
          groupBox1.ResumeLayout(false);
+         groupBox2.ResumeLayout(false);
          ResumeLayout(false);
       }
 
@@ -109,5 +122,6 @@
       private GroupBox groupBox1;
       private GroupBox groupBox2;
       private BewegungsListe bewegungsListe;
+      private AnhangsListe anhangsListe1;
    }
 }
