@@ -119,9 +119,9 @@ namespace Kassenverwaltung.UI.Container
             var umbuchung = new Bewegung();
             using (var editor = new UmbuchungEditor(_dataManager, _konto, umbuchung))
             {
-               if (editor.ShowDialog() == DialogResult.OK)
+               if (editor.ShowDialog() == DialogResult.OK && editor.ZielKonto != null)
                {
-                  _dataManager.AddUmbuchung(umbuchung);
+                  _dataManager.AddUmbuchung(umbuchung, _konto, editor.ZielKonto);
                   FillListBox();
                }
             }
@@ -137,7 +137,7 @@ namespace Kassenverwaltung.UI.Container
             {
                if (editor.ShowDialog() == DialogResult.OK)
                {
-                  _dataManager.AddBewegung(bewegung);
+                  _dataManager.AddBewegung(bewegung, _konto);
                   FillListBox();
                }
             }

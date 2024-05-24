@@ -1,5 +1,6 @@
 ﻿using Kassenverwaltung.Database.Models;
 using Kassenverwaltung.Util;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kassenverwaltung.UI.Dialoge
 {
@@ -22,6 +23,7 @@ namespace Kassenverwaltung.UI.Dialoge
 
       private KVManager DataManger { get; }
       private Konto Konto { get; }
+      public Konto? ZielKonto { get; private set; }
       public Bewegung Umbuchung { get; }
 
       public UmbuchungEditor(KVManager dataManager, Konto konto, Bewegung umbuchung)
@@ -49,10 +51,10 @@ namespace Kassenverwaltung.UI.Dialoge
       {
          if (Umbuchung.iBewegung.HasValue)
          {
-            Konto? zielKonto = DataManger.FindKontoZuBewegung(Umbuchung.iBewegung.Value);
-            if (zielKonto != null)
+            ZielKonto = DataManger.FindKontoZuBewegung(Umbuchung.iBewegung.Value);
+            if (ZielKonto != null)
             {
-               cbxKonto.SelectItem((KontoComboboxItem item) => item.Konto.Id == zielKonto.Id);
+               cbxKonto.SelectItem((KontoComboboxItem item) => item.Konto.Id == ZielKonto.Id);
             }
             cbxKonto.Enabled = false; // Nachträgliche Änderung des Zielkontos nicht möglich.
          }
@@ -80,7 +82,53 @@ namespace Kassenverwaltung.UI.Dialoge
 
       private void OnOK(object sender, EventArgs e)
       {
+         try
+         {
+            ValidateInput();
+            ApplyValues();
 
+            DialogResult = DialogResult.OK;
+         }
+         catch (ValidationException ex)
+         {
+            MessageService.ShowError($"Ungültiger Wert: {ex.Message}", "Fehler beim Übernehmen");
+         }
+      }
+
+      private void ApplyValues()
+      {
+         ZielKonto = GetSelectedKonto();
+
+         Umbuchung.Datum = dtpDatum.Value;
+         Umbuchung.Betrag = monBetrag.Value;
+         Umbuchung.Verwendung = tbxVerwendung.Text;
+      }
+
+      private Konto? GetSelectedKonto()
+      {
+         KontoComboboxItem? selectedItem = cbxKonto.SelectedItem as KontoComboboxItem;
+         if (selectedItem != null)
+         {
+            return selectedItem.Konto;
+         }
+         else
+         {
+            return null;
+         }
+      }
+
+      private void ValidateInput()
+      {
+         Konto? selectedKonto = GetSelectedKonto();
+         if (selectedKonto == null)
+         {
+            throw new ValidationException($"Wählen Sie ein Gegenkonto aus");
+         }
+
+         if (monBetrag.Value == 0)
+         {
+            throw new ValidationException($"Geben Sie einen Betrag an");
+         }
       }
    }
 }

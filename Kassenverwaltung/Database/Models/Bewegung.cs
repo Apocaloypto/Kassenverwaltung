@@ -34,5 +34,16 @@ namespace Kassenverwaltung.Database.Models
             }
          }
       }
+
+      public Bewegung MakeGegenbuchung()
+      {
+         return new Bewegung
+         {
+            iKategorie = iKategorie,
+            Datum = Datum,
+            Betrag = -Betrag,
+            Verwendung = Verwendung
+         };
+      }
    }
 }

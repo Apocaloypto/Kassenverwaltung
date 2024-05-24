@@ -71,14 +71,22 @@ namespace Kassenverwaltung.Util
          // Alle Bewegungen, in denen die Kategorie gesetzt ist auf null setzen, dann Kategorie löschen
       }
 
-      public void AddBewegung(Bewegung newBewegung)
+      public void AddBewegung(Bewegung newBewegung, Konto zielKonto)
       {
+         newBewegung.iKonto = zielKonto.Id;
          _database.Bewegungen.Insert(newBewegung);
       }
 
-      public void AddUmbuchung(Bewegung umbuchung)
+      public void AddUmbuchung(Bewegung umbuchung, Konto vonKonto, Konto aufKonto)
       {
-         // TODO
+         AddBewegung(umbuchung, vonKonto);
+
+         var gegenBuchung = umbuchung.MakeGegenbuchung();
+         gegenBuchung.iBewegung = umbuchung.Id;
+         AddBewegung(gegenBuchung, aufKonto);
+
+         umbuchung.iBewegung = gegenBuchung.Id;
+         _database.Bewegungen.Update(umbuchung);
       }
 
       public void UpdateBewegung(Bewegung updatedBewegung)
@@ -89,6 +97,18 @@ namespace Kassenverwaltung.Util
       public void UpdateUmbuchung(Bewegung updatedUmbuchung)
       {
          _database.Bewegungen.Update(updatedUmbuchung);
+
+         // gegenbuchung:
+         Bewegung? gegenBuchung = _database.Bewegungen.Select($"{nameof(Bewegung.Id)} = {updatedUmbuchung.iBewegung}").FirstOrDefault();
+         if (gegenBuchung != null)
+         {
+            gegenBuchung.Betrag = -updatedUmbuchung.Betrag;
+            gegenBuchung.Datum = updatedUmbuchung.Datum;
+            gegenBuchung.Verwendung = updatedUmbuchung.Verwendung;
+            gegenBuchung.iKategorie = updatedUmbuchung.iKategorie;
+
+            _database.Bewegungen.Update(gegenBuchung);
+         }
       }
 
       public void DeleteBewegung(Bewegung deletedBewegung)
@@ -98,6 +118,16 @@ namespace Kassenverwaltung.Util
 
       internal void DeleteUmbuchung(Bewegung deletedUmbuchung)
       {
+         int? gegenBuchung = deletedUmbuchung.iBewegung;
+
+         deletedUmbuchung.iBewegung = null;
+         _database.Bewegungen.Update(deletedUmbuchung);
+
+         if (gegenBuchung != null)
+         {
+            _database.Bewegungen.Delete($"{nameof(Bewegung.Id)} = {gegenBuchung}");
+         }
+
          _database.Bewegungen.Delete(deletedUmbuchung);
       }
    }
