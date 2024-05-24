@@ -13,6 +13,23 @@ namespace Kassenverwaltung.Util
          _database.EnsureExists();
       }
 
+      public bool IstDbLeer()
+      {
+         int? countKategorien = _database.QueryInt($"select count(*) as kategoriecount from {_database.Kategorien.TableName}", "kategoriecount").FirstOrDefault();
+         if (countKategorien >= 1)
+         {
+            return false;
+         }
+
+         int? countKonten = _database.QueryInt($"select count(*) as kontencount from {_database.Konten.TableName}", "kontencount").FirstOrDefault();
+         if (countKonten >= 1)
+         {
+            return false;
+         }
+
+         return true;
+      }
+
       public IList<Konto> ListKonten()
       {
          return _database.Konten.Select();
@@ -32,6 +49,17 @@ namespace Kassenverwaltung.Util
       {
          // TODO!
          // Alle Bewegungen des Kontos löschen, dann Konto
+      }
+
+      public decimal CalculateCurrentKontostand(Konto konto)
+      {
+         IList<Bewegung> bewegungen = ListBewegungen(konto);
+         decimal total = konto.Anfangsbestand;
+         foreach (var bewegung in bewegungen)
+         {
+            total += bewegung.Betrag;
+         }
+         return total;
       }
 
       public Konto? FindKontoZuBewegung(int iBewegung)

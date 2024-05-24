@@ -53,6 +53,7 @@ namespace Kassenverwaltung
          bool databaseOpened = _dataManager != null;
 
          kategorienToolStripMenuItem.Enabled = databaseOpened;
+         stammdatenimportToolStripMenuItem.Enabled = databaseOpened;
       }
 
       private void OnMenuStrip_Neu(object sender, EventArgs e)
@@ -96,6 +97,38 @@ namespace Kassenverwaltung
                if (dlg.HasChanged)
                {
                   ReloadData();
+               }
+            }
+         }
+      }
+
+      private void OnMenuItem_Stammdatenimport(object sender, EventArgs e)
+      {
+         if (_dataManager != null)
+         {
+            if (!_dataManager.IstDbLeer())
+            {
+               MessageService.ShowError($"Diese Datenbank enthält bereits Daten, ein Import von Stammdaten ist nicht mehr möglich", "Fehler beim Import");
+               return;
+            }
+
+            using (var ofd = new OpenFileDialog())
+            {
+               ofd.Filter = FILE_FILTER;
+
+               if (ofd.ShowDialog() == DialogResult.OK)
+               {
+                  var stammdatenImporter = new StammdatenImporter(_dataManager, ofd.FileName);
+                  try
+                  {
+                     StammdatenImportResult result = stammdatenImporter.ImportData();
+                     MessageService.ShowInfo($"Der Importvorgang wurde erfolgreich durchgeführt: {result}", "Import erfolgreich");
+                     ReloadData();
+                  }
+                  catch (Exception ex)
+                  {
+                     MessageService.ShowError($"Fehler beim Import von Stammdaten: {ex.Message}", "Fehler beim Import");
+                  }
                }
             }
          }

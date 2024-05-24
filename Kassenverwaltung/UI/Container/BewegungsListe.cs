@@ -98,15 +98,9 @@ namespace Kassenverwaltung.UI.Container
 
       private decimal CalculateCurrentKontostand(IList<Bewegung> bewegungen)
       {
-         if (_konto != null)
+         if (_dataManager != null && _konto != null)
          {
-            var kontostand = _konto.Anfangsbestand;
-            foreach (var bewegung in bewegungen)
-            {
-               kontostand += bewegung.Betrag;
-            }
-
-            return kontostand;
+            return _dataManager.CalculateCurrentKontostand(_konto);
          }
          else
          {

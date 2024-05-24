@@ -39,6 +39,8 @@
          groupBox1 = new GroupBox();
          kontenUebersicht = new UI.Container.KontenUebersicht();
          bewegungsUebersicht = new UI.Container.BewegungsUebersicht();
+         importToolStripMenuItem = new ToolStripMenuItem();
+         stammdatenimportToolStripMenuItem = new ToolStripMenuItem();
          menuStrip1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
          splitContainer1.Panel1.SuspendLayout();
@@ -49,7 +51,7 @@
          // 
          // menuStrip1
          // 
-         menuStrip1.Items.AddRange(new ToolStripItem[] { dateiToolStripMenuItem, stammdatenToolStripMenuItem });
+         menuStrip1.Items.AddRange(new ToolStripItem[] { dateiToolStripMenuItem, stammdatenToolStripMenuItem, importToolStripMenuItem });
          menuStrip1.Location = new Point(0, 0);
          menuStrip1.Name = "menuStrip1";
          menuStrip1.Size = new Size(800, 24);
@@ -138,6 +140,20 @@
          bewegungsUebersicht.Size = new Size(524, 420);
          bewegungsUebersicht.TabIndex = 0;
          // 
+         // importToolStripMenuItem
+         // 
+         importToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { stammdatenimportToolStripMenuItem });
+         importToolStripMenuItem.Name = "importToolStripMenuItem";
+         importToolStripMenuItem.Size = new Size(55, 20);
+         importToolStripMenuItem.Text = "Import";
+         // 
+         // stammdatenimportToolStripMenuItem
+         // 
+         stammdatenimportToolStripMenuItem.Name = "stammdatenimportToolStripMenuItem";
+         stammdatenimportToolStripMenuItem.Size = new Size(180, 22);
+         stammdatenimportToolStripMenuItem.Text = "Stammdatenimport";
+         stammdatenimportToolStripMenuItem.Click += OnMenuItem_Stammdatenimport;
+         // 
          // Form1
          // 
          AutoScaleDimensions = new SizeF(7F, 15F);
@@ -173,5 +189,7 @@
       private UI.Container.BewegungsUebersicht bewegungsUebersicht;
       private ToolStripMenuItem stammdatenToolStripMenuItem;
       private ToolStripMenuItem kategorienToolStripMenuItem;
+      private ToolStripMenuItem importToolStripMenuItem;
+      private ToolStripMenuItem stammdatenimportToolStripMenuItem;
    }
 }
