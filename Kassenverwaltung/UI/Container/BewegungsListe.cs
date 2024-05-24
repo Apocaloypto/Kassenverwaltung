@@ -146,6 +146,11 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnBtnClickedEdit(object sender, EventArgs e)
       {
+         EditSelectedBuchung();
+      }
+
+      private void EditSelectedBuchung()
+      {
          if (_dataManager != null && _konto != null)
          {
             Bewegung? selectedBewegung = GetSelectedBewegung();
@@ -204,6 +209,11 @@ namespace Kassenverwaltung.UI.Container
       private void OnSelectedIndexChanged(object sender, EventArgs e)
       {
          SetButtonStates();
+      }
+
+      private void OnDoubleClick(object sender, EventArgs e)
+      {
+         EditSelectedBuchung();
       }
    }
 }

@@ -79,6 +79,7 @@
          lstBewegungen.UseCompatibleStateImageBehavior = false;
          lstBewegungen.View = View.Details;
          lstBewegungen.SelectedIndexChanged += OnSelectedIndexChanged;
+         lstBewegungen.DoubleClick += OnDoubleClick;
          // 
          // colLfdNr
          // 
