@@ -78,6 +78,7 @@
          lstBewegungen.TabIndex = 0;
          lstBewegungen.UseCompatibleStateImageBehavior = false;
          lstBewegungen.View = View.Details;
+         lstBewegungen.SelectedIndexChanged += OnSelectedIndexChanged;
          // 
          // colLfdNr
          // 

@@ -59,5 +59,20 @@ namespace Kassenverwaltung.Util
          // TODO!
          // Alle Bewegungen, in denen die Kategorie gesetzt ist auf null setzen, dann Kategorie löschen
       }
+
+      public void AddBewegung(Bewegung newBewegung)
+      {
+         _database.Bewegungen.Insert(newBewegung);
+      }
+
+      public void UpdateBewegung(Bewegung updatedBewegung)
+      {
+         _database.Bewegungen.Update(updatedBewegung);
+      }
+
+      public void DeleteBewegung(Bewegung deletedBewegung)
+      {
+         _database.Bewegungen.Delete(deletedBewegung);
+      }
    }
 }

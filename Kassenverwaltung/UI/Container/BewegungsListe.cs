@@ -1,4 +1,5 @@
 ﻿using Kassenverwaltung.Database.Models;
+using Kassenverwaltung.UI.Dialoge;
 using Kassenverwaltung.Util;
 
 namespace Kassenverwaltung.UI.Container
@@ -109,17 +110,58 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnBtnClickedAdd(object sender, EventArgs e)
       {
-
+         if (_dataManager != null && _konto != null)
+         {
+            var bewegung = new Bewegung();
+            using (var editor = new BewegungEditor(_dataManager, _konto, bewegung))
+            {
+               if (editor.ShowDialog() == DialogResult.OK)
+               {
+                  _dataManager.AddBewegung(bewegung);
+                  FillListBox();
+               }
+            }
+         }
       }
 
       private void OnBtnClickedEdit(object sender, EventArgs e)
       {
-
+         if (_dataManager != null && _konto != null)
+         {
+            Bewegung? selectedBewegung = GetSelectedBewegung();
+            if (selectedBewegung != null)
+            {
+               using (var editor = new BewegungEditor(_dataManager, _konto, selectedBewegung))
+               {
+                  if (editor.ShowDialog() == DialogResult.OK)
+                  {
+                     _dataManager.UpdateBewegung(selectedBewegung);
+                     FillListBox();
+                  }
+               }
+            }
+         }
       }
 
       private void OnBtnClickedDel(object sender, EventArgs e)
       {
+         if (_dataManager != null)
+         {
+            Bewegung? selectedBewegung = GetSelectedBewegung();
+            if (selectedBewegung != null)
+            {
+               if (MessageService.ShowYesNo($"Möchten Sie die ausgewählte Bewegung vom {selectedBewegung.Datum} über den Betrag von {selectedBewegung.Betrag} wirklich löschen?", "Löschen?"))
+               {
+                  _dataManager.DeleteBewegung(selectedBewegung);
+                  FillListBox();
+               }
+            }
+         }
+      }
 
+      private void OnSelectedIndexChanged(object sender, EventArgs e)
+      {
+         SetButtonStates();
       }
    }
 }
