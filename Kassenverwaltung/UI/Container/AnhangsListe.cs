@@ -18,6 +18,7 @@ namespace Kassenverwaltung.UI.Container
 
       public void SetCurrentDatabase(KVManager? dataManager)
       {
+         TempFileHelper.Inst.TryDeleteTempFiles();
          DataManager = dataManager;
          FillListBox();
          SetButtonStates();
@@ -25,6 +26,7 @@ namespace Kassenverwaltung.UI.Container
 
       public void SetCurrentBewegung(Bewegung? bewegung)
       {
+         TempFileHelper.Inst.TryDeleteTempFiles();
          Bewegung = bewegung;
          FillListBox();
          SetButtonStates();
@@ -156,6 +158,35 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnClickedDetails(object sender, EventArgs e)
       {
+         Beleg? selectedBeleg = GetSelectedBeleg();
+         if (selectedBeleg != null)
+         {
+            try
+            {
+               if (selectedBeleg.BlobInDb)
+               {
+                  string fileExt = Path.GetExtension(selectedBeleg.Pfad!);
+                  if (string.IsNullOrEmpty(fileExt))
+                  {
+                     throw new InvalidOperationException($"Es konnte keine Dateiendung ermittelt werden, exportieren Sie stattdessen die Datei");
+                  }
+
+                  string temppath = FileHelper.GenerateTempFilename(fileExt);
+                  File.WriteAllBytes(temppath, selectedBeleg.Blob!);
+                  TempFileHelper.Inst.Register(temppath);
+
+                  FileHelper.OpenFileWithDefaultProgram(temppath);
+               }
+               else
+               {
+                  FileHelper.OpenFileWithDefaultProgram(selectedBeleg.Pfad!);
+               }
+            }
+            catch (Exception ex)
+            {
+               MessageService.ShowError($"Fehler beim Öffnen der Datei: {ex.Message}", "Fehler");
+            }
+         }
       }
 
       private void OnClickedExport(object sender, EventArgs e)

@@ -1,3 +1,5 @@
+using Kassenverwaltung.Util;
+
 namespace Kassenverwaltung
 {
    internal static class Program
@@ -12,6 +14,7 @@ namespace Kassenverwaltung
          // see https://aka.ms/applicationconfiguration.
          ApplicationConfiguration.Initialize();
          Application.Run(new Form1(args.Length >= 1 ? args[0] : null));
+         TempFileHelper.Inst.TryDeleteTempFiles();
       }
    }
 }
