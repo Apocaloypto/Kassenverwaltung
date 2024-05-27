@@ -2,6 +2,7 @@ using Kassenverwaltung.Database.Models;
 using Kassenverwaltung.UI;
 using Kassenverwaltung.UI.Dialoge;
 using Kassenverwaltung.Util;
+using Kassenverwaltung.Util.BewegungImporter;
 
 namespace Kassenverwaltung
 {
@@ -130,6 +131,51 @@ namespace Kassenverwaltung
                      MessageService.ShowError($"Fehler beim Import von Stammdaten: {ex.Message}", "Fehler beim Import");
                   }
                }
+            }
+         }
+      }
+
+      private IList<BewegungsDatensatz>? ImportBewegungsDatensaetze()
+      {
+         if (_dataManager != null)
+         {
+            using (var dlg = new BewegungsImporter())
+            {
+               if (dlg.ShowDialog() == DialogResult.OK)
+               {
+                  if (Path.Exists(dlg.ImportFile))
+                  {
+                     IBewegungsImport importer = ImporterFactory.CreateImporter(dlg.ImportFormat, _dataManager);
+                     return importer.GetBewegungsDatensaetze(dlg.ImportFile);
+                  }
+               }
+            }
+         }
+
+         return null;
+      }
+
+      private void OnMenuItem_BewegungsImport(object sender, EventArgs e)
+      {
+         if (_dataManager != null)
+         {
+            try
+            {
+               IList<BewegungsDatensatz>? bewegungsDaten = ImportBewegungsDatensaetze();
+               if (bewegungsDaten != null)
+               {
+                  using (var importDialog = new BewegungsDatensaetze(bewegungsDaten))
+                  {
+                     if (importDialog.ShowDialog() == DialogResult.OK)
+                     {
+                        // TODO
+                     }
+                  }
+               }
+            }
+            catch (Exception ex)
+            {
+               MessageService.ShowError($"Fehler beim Import von Bewegungsdaten: {ex.Message}", "Fehler beim Import");
             }
          }
       }

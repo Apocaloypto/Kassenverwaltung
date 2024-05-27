@@ -5,7 +5,7 @@ namespace Kassenverwaltung.Database.Core
 {
    public class DBColumn
    {
-      private const string DATETIME_FORMAT = "yyyy-MM-ddTHH:mm:ss";
+      public const string DATETIME_FORMAT = "yyyy-MM-ddTHH:mm:ss";
 
       public string Name { get; }
       public bool IsPrimary { get; }

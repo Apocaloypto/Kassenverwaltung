@@ -35,12 +35,14 @@
          öffnenToolStripMenuItem = new ToolStripMenuItem();
          stammdatenToolStripMenuItem = new ToolStripMenuItem();
          kategorienToolStripMenuItem = new ToolStripMenuItem();
+         importToolStripMenuItem = new ToolStripMenuItem();
+         stammdatenimportToolStripMenuItem = new ToolStripMenuItem();
          splitContainer1 = new SplitContainer();
          groupBox1 = new GroupBox();
          kontenUebersicht = new UI.Container.KontenUebersicht();
          bewegungsUebersicht = new UI.Container.BewegungsUebersicht();
-         importToolStripMenuItem = new ToolStripMenuItem();
-         stammdatenimportToolStripMenuItem = new ToolStripMenuItem();
+         toolStripSeparator1 = new ToolStripSeparator();
+         bewegungsdatenimportToolStripMenuItem = new ToolStripMenuItem();
          menuStrip1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
          splitContainer1.Panel1.SuspendLayout();
@@ -89,9 +91,23 @@
          // kategorienToolStripMenuItem
          // 
          kategorienToolStripMenuItem.Name = "kategorienToolStripMenuItem";
-         kategorienToolStripMenuItem.Size = new Size(180, 22);
+         kategorienToolStripMenuItem.Size = new Size(131, 22);
          kategorienToolStripMenuItem.Text = "Kategorien";
          kategorienToolStripMenuItem.Click += OnKategorienClicked;
+         // 
+         // importToolStripMenuItem
+         // 
+         importToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { stammdatenimportToolStripMenuItem, toolStripSeparator1, bewegungsdatenimportToolStripMenuItem });
+         importToolStripMenuItem.Name = "importToolStripMenuItem";
+         importToolStripMenuItem.Size = new Size(55, 20);
+         importToolStripMenuItem.Text = "Import";
+         // 
+         // stammdatenimportToolStripMenuItem
+         // 
+         stammdatenimportToolStripMenuItem.Name = "stammdatenimportToolStripMenuItem";
+         stammdatenimportToolStripMenuItem.Size = new Size(201, 22);
+         stammdatenimportToolStripMenuItem.Text = "Stammdatenimport";
+         stammdatenimportToolStripMenuItem.Click += OnMenuItem_Stammdatenimport;
          // 
          // splitContainer1
          // 
@@ -140,19 +156,17 @@
          bewegungsUebersicht.Size = new Size(524, 420);
          bewegungsUebersicht.TabIndex = 0;
          // 
-         // importToolStripMenuItem
+         // toolStripSeparator1
          // 
-         importToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { stammdatenimportToolStripMenuItem });
-         importToolStripMenuItem.Name = "importToolStripMenuItem";
-         importToolStripMenuItem.Size = new Size(55, 20);
-         importToolStripMenuItem.Text = "Import";
+         toolStripSeparator1.Name = "toolStripSeparator1";
+         toolStripSeparator1.Size = new Size(198, 6);
          // 
-         // stammdatenimportToolStripMenuItem
+         // bewegungsdatenimportToolStripMenuItem
          // 
-         stammdatenimportToolStripMenuItem.Name = "stammdatenimportToolStripMenuItem";
-         stammdatenimportToolStripMenuItem.Size = new Size(180, 22);
-         stammdatenimportToolStripMenuItem.Text = "Stammdatenimport";
-         stammdatenimportToolStripMenuItem.Click += OnMenuItem_Stammdatenimport;
+         bewegungsdatenimportToolStripMenuItem.Name = "bewegungsdatenimportToolStripMenuItem";
+         bewegungsdatenimportToolStripMenuItem.Size = new Size(201, 22);
+         bewegungsdatenimportToolStripMenuItem.Text = "Bewegungsdatenimport";
+         bewegungsdatenimportToolStripMenuItem.Click += OnMenuItem_BewegungsImport;
          // 
          // Form1
          // 
@@ -191,5 +205,7 @@
       private ToolStripMenuItem kategorienToolStripMenuItem;
       private ToolStripMenuItem importToolStripMenuItem;
       private ToolStripMenuItem stammdatenimportToolStripMenuItem;
+      private ToolStripSeparator toolStripSeparator1;
+      private ToolStripMenuItem bewegungsdatenimportToolStripMenuItem;
    }
 }

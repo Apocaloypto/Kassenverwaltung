@@ -1,5 +1,7 @@
 ﻿using Kassenverwaltung.Database;
+using Kassenverwaltung.Database.Core;
 using Kassenverwaltung.Database.Models;
+using System.Globalization;
 
 namespace Kassenverwaltung.Util
 {
@@ -71,6 +73,14 @@ namespace Kassenverwaltung.Util
          }
 
          return null;
+      }
+
+      public Bewegung? FindBewegungAm(int iKonto, DateTime datum, decimal betrag)
+      {
+         string filter = $"{nameof(Bewegung.iKonto)} = {iKonto} " +
+            $"and {nameof(Bewegung.Datum)} = '{datum.ToString(DBColumn.DATETIME_FORMAT)}' " +
+            $"and {nameof(Bewegung.Betrag)} = {betrag.ToString("0.00", CultureInfo.InvariantCulture)}";
+         return _database.Bewegungen.Select(filter).FirstOrDefault();
       }
 
       public IList<Bewegung> ListBewegungen(Konto konto)

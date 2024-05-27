@@ -21,5 +21,10 @@ namespace Kassenverwaltung.Util
             return value.ToString();
          }
       }
+
+      public static IEnumerable<T> GetIterator<T>() where T : Enum
+      {
+         return Enum.GetValues(typeof(T)).Cast<T>();
+      }
    }
 }
