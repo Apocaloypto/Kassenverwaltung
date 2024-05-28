@@ -53,7 +53,9 @@ namespace Kassenverwaltung
       {
          bool databaseOpened = _kassenManager != null;
 
+         stammdatenToolStripMenuItem.Enabled = databaseOpened;
          kategorienToolStripMenuItem.Enabled = databaseOpened;
+         importToolStripMenuItem.Enabled = databaseOpened;
          stammdatenimportToolStripMenuItem.Enabled = databaseOpened;
          bewegungsdatenimportToolStripMenuItem.Enabled = databaseOpened;
       }
