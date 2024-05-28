@@ -11,6 +11,10 @@
 
       public void ImportBewegungsDatensaetze(IList<BewegungsDatensatz> datensaetze)
       {
+         foreach (var datensatz in datensaetze)
+         {
+            _kassenManager.AddBewegung(datensatz, datensatz.ZielKonto!);
+         }
       }
    }
 }

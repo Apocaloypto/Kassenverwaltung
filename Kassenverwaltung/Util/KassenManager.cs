@@ -85,7 +85,8 @@ namespace Kassenverwaltung.Util
 
       public IList<Bewegung> ListBewegungen(Konto konto)
       {
-         return _database.Bewegungen.Select($"{nameof(Bewegung.iKonto)} = {konto.Id}");
+         IList<Bewegung> bewegungen = _database.Bewegungen.Select($"{nameof(Bewegung.iKonto)} = {konto.Id}");
+         return bewegungen.OrderBy(b => b.Datum).ToList();
       }
 
       public IList<Kategorie> ListKategorien()

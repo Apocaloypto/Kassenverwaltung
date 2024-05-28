@@ -55,6 +55,7 @@ namespace Kassenverwaltung
 
          kategorienToolStripMenuItem.Enabled = databaseOpened;
          stammdatenimportToolStripMenuItem.Enabled = databaseOpened;
+         bewegungsdatenimportToolStripMenuItem.Enabled = databaseOpened;
       }
 
       private void OnMenuStrip_Neu(object sender, EventArgs e)
@@ -168,7 +169,10 @@ namespace Kassenverwaltung
                   {
                      if (importDialog.ShowDialog() == DialogResult.OK)
                      {
-                        // TODO
+                        var importManager = new ImportManager(_kassenManager);
+                        importManager.ImportBewegungsDatensaetze(importDialog.AusgewaehlteDatensaetze!);
+                        MessageService.ShowInfo($"Der Import wurde erfolgreich durchgeführt", "Hinweis");
+                        ReloadData();
                      }
                   }
                }

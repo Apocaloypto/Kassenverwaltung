@@ -33,23 +33,26 @@
          colZielKonto = new ColumnHeader();
          colDatum = new ColumnHeader();
          colBetrag = new ColumnHeader();
+         colVerwendung = new ColumnHeader();
          colHinweis = new ColumnHeader();
          btnOK = new Button();
          btnCancel = new Button();
-         colVerwendung = new ColumnHeader();
+         btnAlleKeinen = new Button();
          tableLayoutPanel1.SuspendLayout();
          SuspendLayout();
          // 
          // tableLayoutPanel1
          // 
          tableLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-         tableLayoutPanel1.ColumnCount = 3;
+         tableLayoutPanel1.ColumnCount = 4;
+         tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
          tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
          tableLayoutPanel1.Controls.Add(lstDatensaetze, 0, 0);
-         tableLayoutPanel1.Controls.Add(btnOK, 1, 1);
-         tableLayoutPanel1.Controls.Add(btnCancel, 2, 1);
+         tableLayoutPanel1.Controls.Add(btnOK, 2, 1);
+         tableLayoutPanel1.Controls.Add(btnCancel, 3, 1);
+         tableLayoutPanel1.Controls.Add(btnAlleKeinen, 0, 1);
          tableLayoutPanel1.Location = new Point(12, 12);
          tableLayoutPanel1.Name = "tableLayoutPanel1";
          tableLayoutPanel1.RowCount = 2;
@@ -62,7 +65,7 @@
          // 
          lstDatensaetze.CheckBoxes = true;
          lstDatensaetze.Columns.AddRange(new ColumnHeader[] { colZielKonto, colDatum, colBetrag, colVerwendung, colHinweis });
-         tableLayoutPanel1.SetColumnSpan(lstDatensaetze, 3);
+         tableLayoutPanel1.SetColumnSpan(lstDatensaetze, 4);
          lstDatensaetze.Dock = DockStyle.Fill;
          lstDatensaetze.FullRowSelect = true;
          lstDatensaetze.GridLines = true;
@@ -87,6 +90,10 @@
          // colBetrag
          // 
          colBetrag.Text = "Betrag";
+         // 
+         // colVerwendung
+         // 
+         colVerwendung.Text = "Verwendungszweck";
          // 
          // colHinweis
          // 
@@ -113,9 +120,16 @@
          btnCancel.Text = "Abbrechen";
          btnCancel.UseVisualStyleBackColor = true;
          // 
-         // colVerwendung
+         // btnAlleKeinen
          // 
-         colVerwendung.Text = "Verwendungszweck";
+         btnAlleKeinen.Dock = DockStyle.Fill;
+         btnAlleKeinen.Location = new Point(3, 399);
+         btnAlleKeinen.Name = "btnAlleKeinen";
+         btnAlleKeinen.Size = new Size(94, 24);
+         btnAlleKeinen.TabIndex = 3;
+         btnAlleKeinen.Text = "Alle/Keinen";
+         btnAlleKeinen.UseVisualStyleBackColor = true;
+         btnAlleKeinen.Click += OnClickedAlleKeinen;
          // 
          // BewegungsDatensaetze
          // 
@@ -144,5 +158,6 @@
       private ColumnHeader colHinweis;
       private ColumnHeader colBetrag;
       private ColumnHeader colVerwendung;
+      private Button btnAlleKeinen;
    }
 }

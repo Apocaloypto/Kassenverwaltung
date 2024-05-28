@@ -17,5 +17,18 @@
             }
          }
       }
+
+      public static bool AllChecked(this ListView listView)
+      {
+         return listView.CheckedItems.Count == listView.Items.Count;
+      }
+
+      public static void SetAllChecked(this ListView listView, bool check)
+      {
+         foreach (ListViewItem item in listView.Items)
+         {
+            item.Checked = check;
+         }
+      }
    }
 }

@@ -1,10 +1,14 @@
-﻿using Kassenverwaltung.Util.BewegungImporter;
+﻿using Kassenverwaltung.Util;
+using Kassenverwaltung.Util.BewegungImporter;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kassenverwaltung.UI.Dialoge
 {
    public partial class BewegungsDatensaetze : Form
    {
       private readonly IList<BewegungsDatensatz> _bewegungsDatensaetze;
+
+      public IList<BewegungsDatensatz>? AusgewaehlteDatensaetze { get; private set; }
 
       public BewegungsDatensaetze(IList<BewegungsDatensatz> bewegungsDatensaetze)
       {
@@ -47,7 +51,7 @@ namespace Kassenverwaltung.UI.Dialoge
          }
          else if (bewegungsDatensatz.Warnung)
          {
-            lvi.SubItems.Add($"Warnung: {bewegungsDatensatz.FehlerMeldung}");
+            lvi.SubItems.Add($"Warnung: {bewegungsDatensatz.WarnMeldung}");
             lvi.Checked = false;
          }
          else
@@ -61,9 +65,42 @@ namespace Kassenverwaltung.UI.Dialoge
          lstDatensaetze.Items.Add(lvi);
       }
 
+
+
       private void OnOK(object sender, EventArgs e)
       {
+         try
+         {
+            ValidateInput();
+            ApplyValues();
 
+            DialogResult = DialogResult.OK;
+         }
+         catch (ValidationException ex)
+         {
+            MessageService.ShowError($"Fehler: {ex.Message}", "Fehler");
+         }
+      }
+
+      private void ApplyValues()
+      {
+         AusgewaehlteDatensaetze = new List<BewegungsDatensatz>();
+         foreach (ListViewItem checkedItem in lstDatensaetze.CheckedItems)
+         {
+            BewegungsDatensatz? zeile = checkedItem.Tag as BewegungsDatensatz;
+            if (zeile != null)
+            {
+               AusgewaehlteDatensaetze.Add(zeile);
+            }
+         }
+      }
+
+      private void ValidateInput()
+      {
+         if (lstDatensaetze.CheckedItems.Count <= 0)
+         {
+            throw new ValidationException($"Wählen Sie mindestens einen zu importierenden Datensatz aus.");
+         }
       }
 
       private void SelectedIndexChanged(object sender, EventArgs e)
@@ -83,6 +120,18 @@ namespace Kassenverwaltung.UI.Dialoge
       private void OnItemChecked(object sender, ItemCheckedEventArgs e)
       {
          SetButtonStates();
+      }
+
+      private void OnClickedAlleKeinen(object sender, EventArgs e)
+      {
+         if (lstDatensaetze.AllChecked())
+         {
+            lstDatensaetze.SetAllChecked(false);
+         }
+         else
+         {
+            lstDatensaetze.SetAllChecked(true);
+         }
       }
    }
 }
