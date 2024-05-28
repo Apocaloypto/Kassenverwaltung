@@ -37,12 +37,15 @@
          kategorienToolStripMenuItem = new ToolStripMenuItem();
          importToolStripMenuItem = new ToolStripMenuItem();
          stammdatenimportToolStripMenuItem = new ToolStripMenuItem();
+         toolStripSeparator1 = new ToolStripSeparator();
+         bewegungsdatenimportToolStripMenuItem = new ToolStripMenuItem();
          splitContainer1 = new SplitContainer();
          groupBox1 = new GroupBox();
          kontenUebersicht = new UI.Container.KontenUebersicht();
          bewegungsUebersicht = new UI.Container.BewegungsUebersicht();
-         toolStripSeparator1 = new ToolStripSeparator();
-         bewegungsdatenimportToolStripMenuItem = new ToolStripMenuItem();
+         exportToolStripMenuItem = new ToolStripMenuItem();
+         kassenprüfungToolStripMenuItem = new ToolStripMenuItem();
+         jahreshauptversammlungToolStripMenuItem = new ToolStripMenuItem();
          menuStrip1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
          splitContainer1.Panel1.SuspendLayout();
@@ -53,7 +56,7 @@
          // 
          // menuStrip1
          // 
-         menuStrip1.Items.AddRange(new ToolStripItem[] { dateiToolStripMenuItem, stammdatenToolStripMenuItem, importToolStripMenuItem });
+         menuStrip1.Items.AddRange(new ToolStripItem[] { dateiToolStripMenuItem, stammdatenToolStripMenuItem, importToolStripMenuItem, exportToolStripMenuItem });
          menuStrip1.Location = new Point(0, 0);
          menuStrip1.Name = "menuStrip1";
          menuStrip1.Size = new Size(800, 24);
@@ -109,6 +112,18 @@
          stammdatenimportToolStripMenuItem.Text = "Stammdatenimport";
          stammdatenimportToolStripMenuItem.Click += OnMenuItem_Stammdatenimport;
          // 
+         // toolStripSeparator1
+         // 
+         toolStripSeparator1.Name = "toolStripSeparator1";
+         toolStripSeparator1.Size = new Size(198, 6);
+         // 
+         // bewegungsdatenimportToolStripMenuItem
+         // 
+         bewegungsdatenimportToolStripMenuItem.Name = "bewegungsdatenimportToolStripMenuItem";
+         bewegungsdatenimportToolStripMenuItem.Size = new Size(201, 22);
+         bewegungsdatenimportToolStripMenuItem.Text = "Bewegungsdatenimport";
+         bewegungsdatenimportToolStripMenuItem.Click += OnMenuItem_BewegungsImport;
+         // 
          // splitContainer1
          // 
          splitContainer1.Dock = DockStyle.Fill;
@@ -156,17 +171,26 @@
          bewegungsUebersicht.Size = new Size(524, 420);
          bewegungsUebersicht.TabIndex = 0;
          // 
-         // toolStripSeparator1
+         // exportToolStripMenuItem
          // 
-         toolStripSeparator1.Name = "toolStripSeparator1";
-         toolStripSeparator1.Size = new Size(198, 6);
+         exportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { kassenprüfungToolStripMenuItem, jahreshauptversammlungToolStripMenuItem });
+         exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+         exportToolStripMenuItem.Size = new Size(53, 20);
+         exportToolStripMenuItem.Text = "Export";
          // 
-         // bewegungsdatenimportToolStripMenuItem
+         // kassenprüfungToolStripMenuItem
          // 
-         bewegungsdatenimportToolStripMenuItem.Name = "bewegungsdatenimportToolStripMenuItem";
-         bewegungsdatenimportToolStripMenuItem.Size = new Size(201, 22);
-         bewegungsdatenimportToolStripMenuItem.Text = "Bewegungsdatenimport";
-         bewegungsdatenimportToolStripMenuItem.Click += OnMenuItem_BewegungsImport;
+         kassenprüfungToolStripMenuItem.Name = "kassenprüfungToolStripMenuItem";
+         kassenprüfungToolStripMenuItem.Size = new Size(210, 22);
+         kassenprüfungToolStripMenuItem.Text = "Kassenprüfung";
+         kassenprüfungToolStripMenuItem.Click += OnMenuStrip_ExportPruefung;
+         // 
+         // jahreshauptversammlungToolStripMenuItem
+         // 
+         jahreshauptversammlungToolStripMenuItem.Name = "jahreshauptversammlungToolStripMenuItem";
+         jahreshauptversammlungToolStripMenuItem.Size = new Size(210, 22);
+         jahreshauptversammlungToolStripMenuItem.Text = "Jahreshauptversammlung";
+         jahreshauptversammlungToolStripMenuItem.Click += OnMenuStrip_ExportJHV;
          // 
          // Form1
          // 
@@ -207,5 +231,8 @@
       private ToolStripMenuItem stammdatenimportToolStripMenuItem;
       private ToolStripSeparator toolStripSeparator1;
       private ToolStripMenuItem bewegungsdatenimportToolStripMenuItem;
+      private ToolStripMenuItem exportToolStripMenuItem;
+      private ToolStripMenuItem kassenprüfungToolStripMenuItem;
+      private ToolStripMenuItem jahreshauptversammlungToolStripMenuItem;
    }
 }

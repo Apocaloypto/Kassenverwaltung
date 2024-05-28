@@ -3,6 +3,7 @@ using Kassenverwaltung.UI;
 using Kassenverwaltung.UI.Dialoge;
 using Kassenverwaltung.Util;
 using Kassenverwaltung.Util.BewegungImporter;
+using Kassenverwaltung.Util.Exporter;
 
 namespace Kassenverwaltung
 {
@@ -54,10 +55,8 @@ namespace Kassenverwaltung
          bool databaseOpened = _kassenManager != null;
 
          stammdatenToolStripMenuItem.Enabled = databaseOpened;
-         kategorienToolStripMenuItem.Enabled = databaseOpened;
          importToolStripMenuItem.Enabled = databaseOpened;
-         stammdatenimportToolStripMenuItem.Enabled = databaseOpened;
-         bewegungsdatenimportToolStripMenuItem.Enabled = databaseOpened;
+         exportToolStripMenuItem.Enabled = databaseOpened;
       }
 
       private void OnMenuStrip_Neu(object sender, EventArgs e)
@@ -184,6 +183,41 @@ namespace Kassenverwaltung
                MessageService.ShowError($"Fehler beim Import von Bewegungsdaten: {ex.Message}", "Fehler beim Import");
             }
          }
+      }
+
+      private void Export(ExportFormat format)
+      {
+         if (_kassenManager != null)
+         {
+            try
+            {
+               using (var sfd = new SaveFileDialog())
+               {
+                  sfd.Filter = "OpenDocumentFormat (*.ods)|*.ods";
+
+                  if (sfd.ShowDialog() == DialogResult.OK)
+                  {
+                     var exportManager = new ExportManager(_kassenManager);
+                     exportManager.Export(format, sfd.FileName);
+                     MessageService.ShowInfo($"Export erfolgreich durchgeführt!", "Export erfolgreich");
+                  }
+               }
+            }
+            catch (Exception ex)
+            {
+               MessageService.ShowError($"Fehler beim Export von Daten: {ex.Message}", "Fehler beim Export");
+            }
+         }
+      }
+
+      private void OnMenuStrip_ExportPruefung(object sender, EventArgs e)
+      {
+         Export(ExportFormat.Kassenpruefung);
+      }
+
+      private void OnMenuStrip_ExportJHV(object sender, EventArgs e)
+      {
+         Export(ExportFormat.JHV);
       }
    }
 }
