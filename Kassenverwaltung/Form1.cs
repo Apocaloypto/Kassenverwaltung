@@ -10,7 +10,7 @@ namespace Kassenverwaltung
    {
       private const string FILE_FILTER = "Kassenverwaltungsdatei (*.kdb)|*.kdb";
 
-      private KVManager? _dataManager;
+      private KassenManager? _kassenManager;
       private string DefaultWindowTitle { get; }
 
       public Form1(string? filename)
@@ -30,7 +30,7 @@ namespace Kassenverwaltung
       {
          try
          {
-            _dataManager = new KVManager(filename);
+            _kassenManager = new KassenManager(filename);
             Text = $"{DefaultWindowTitle} - {filename}";
 
             ReloadData();
@@ -45,13 +45,13 @@ namespace Kassenverwaltung
 
       private void ReloadData()
       {
-         kontenUebersicht.SetCurrentDatabase(_dataManager);
-         bewegungsUebersicht.SetCurrentDatabase(_dataManager);
+         kontenUebersicht.SetCurrentKassenManager(_kassenManager);
+         bewegungsUebersicht.SetCurrentKassenManager(_kassenManager);
       }
 
       private void SetButtonStates()
       {
-         bool databaseOpened = _dataManager != null;
+         bool databaseOpened = _kassenManager != null;
 
          kategorienToolStripMenuItem.Enabled = databaseOpened;
          stammdatenimportToolStripMenuItem.Enabled = databaseOpened;
@@ -90,9 +90,9 @@ namespace Kassenverwaltung
 
       private void OnKategorienClicked(object sender, EventArgs e)
       {
-         if (_dataManager != null)
+         if (_kassenManager != null)
          {
-            using (var dlg = new KategorienListe(_dataManager))
+            using (var dlg = new KategorienListe(_kassenManager))
             {
                dlg.ShowDialog();
                if (dlg.HasChanged)
@@ -105,9 +105,9 @@ namespace Kassenverwaltung
 
       private void OnMenuItem_Stammdatenimport(object sender, EventArgs e)
       {
-         if (_dataManager != null)
+         if (_kassenManager != null)
          {
-            if (!_dataManager.IstDbLeer())
+            if (!_kassenManager.IstDbLeer())
             {
                MessageService.ShowError($"Diese Datenbank enthält bereits Daten, ein Import von Stammdaten ist nicht mehr möglich", "Fehler beim Import");
                return;
@@ -119,7 +119,7 @@ namespace Kassenverwaltung
 
                if (ofd.ShowDialog() == DialogResult.OK)
                {
-                  var stammdatenImporter = new StammdatenImporter(_dataManager, ofd.FileName);
+                  var stammdatenImporter = new StammdatenImporter(_kassenManager, ofd.FileName);
                   try
                   {
                      StammdatenImportResult result = stammdatenImporter.ImportData();
@@ -137,7 +137,7 @@ namespace Kassenverwaltung
 
       private IList<BewegungsDatensatz>? ImportBewegungsDatensaetze()
       {
-         if (_dataManager != null)
+         if (_kassenManager != null)
          {
             using (var dlg = new BewegungsImporter())
             {
@@ -145,7 +145,7 @@ namespace Kassenverwaltung
                {
                   if (Path.Exists(dlg.ImportFile))
                   {
-                     IBewegungsImport importer = ImporterFactory.CreateImporter(dlg.ImportFormat, _dataManager);
+                     IBewegungsImport importer = ImporterFactory.CreateImporter(dlg.ImportFormat, _kassenManager);
                      return importer.GetBewegungsDatensaetze(dlg.ImportFile);
                   }
                }
@@ -157,7 +157,7 @@ namespace Kassenverwaltung
 
       private void OnMenuItem_BewegungsImport(object sender, EventArgs e)
       {
-         if (_dataManager != null)
+         if (_kassenManager != null)
          {
             try
             {

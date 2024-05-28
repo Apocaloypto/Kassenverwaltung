@@ -10,10 +10,10 @@ namespace Kassenverwaltung.UI.Container
          InitializeComponent();
       }
 
-      public void SetCurrentDatabase(KVManager? dataManager)
+      public void SetCurrentKassenManager(KassenManager? kassenManager)
       {
-         bewegungsListe.SetCurrentDatabase(dataManager);
-         anhangsListe1.SetCurrentDatabase(dataManager);
+         bewegungsListe.SetCurrentKassenManager(kassenManager);
+         anhangsListe1.SetCurrentKassenManager(kassenManager);
       }
 
       public void SetCurrentKonto(Konto? konto)

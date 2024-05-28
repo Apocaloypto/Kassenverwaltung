@@ -2,11 +2,11 @@
 {
    public class ImportManager
    {
-      private readonly KVManager _dataManager;
+      private readonly KassenManager _kassenManager;
 
-      public ImportManager(KVManager dataManager)
+      public ImportManager(KassenManager kassenManager)
       {
-         _dataManager = dataManager;
+         _kassenManager = kassenManager;
       }
 
       public void ImportBewegungsDatensaetze(IList<BewegungsDatensatz> datensaetze)

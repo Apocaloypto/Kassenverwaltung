@@ -13,16 +13,16 @@ namespace Kassenverwaltung.Util.BewegungImporter.Formats
       private const string AUF_KONTO_BIC = "BIC (SWIFT-Code)";
       private const string BETRAG = "Betrag";
 
-      private readonly KVManager DataManager;
+      private readonly KassenManager _kassenManager;
 
-      public CsvCamtv2(KVManager dataManager)
+      public CsvCamtv2(KassenManager kassenManager)
       {
-         DataManager = dataManager;
+         _kassenManager = kassenManager;
       }
 
       private IDictionary<string, Konto> LoadKontenByIBAN()
       {
-         IList<Konto> konten = DataManager.ListKonten();
+         IList<Konto> konten = _kassenManager.ListKonten();
          return konten.ToDictionary(k => k.IBAN!, k => k);
       }
 
@@ -56,7 +56,7 @@ namespace Kassenverwaltung.Util.BewegungImporter.Formats
                   Verwendung = kompletteVerwendung,
                };
 
-               Bewegung? bewegungAmGleichenTag = DataManager.FindBewegungAm(bewegungsDatensatz.ZielKonto!.Id, bewegungsDatensatz.Datum, bewegungsDatensatz.Betrag);
+               Bewegung? bewegungAmGleichenTag = _kassenManager.FindBewegungAm(bewegungsDatensatz.ZielKonto!.Id, bewegungsDatensatz.Datum, bewegungsDatensatz.Betrag);
                if (bewegungAmGleichenTag == null)
                {
                   bewegungsDatensatz.Import = true;

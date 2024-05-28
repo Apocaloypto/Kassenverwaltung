@@ -6,7 +6,7 @@ namespace Kassenverwaltung.UI.Container
 {
    public partial class KontenUebersicht : UserControl
    {
-      private KVManager? _dataManager;
+      private KassenManager? _kassenManager;
 
       public event EventHandler<Konto?>? SelectedKontoChanged;
 
@@ -17,9 +17,9 @@ namespace Kassenverwaltung.UI.Container
          SetButtonStates();
       }
 
-      public void SetCurrentDatabase(KVManager? dataManager)
+      public void SetCurrentKassenManager(KassenManager? kassenManager)
       {
-         _dataManager = dataManager;
+         _kassenManager = kassenManager;
          FillListBox();
          SetButtonStates();
       }
@@ -37,9 +37,9 @@ namespace Kassenverwaltung.UI.Container
          int? currentlySelectedKonto = GetSelectedKonto()?.Id;
          lstKonten.Items.Clear();
 
-         if (_dataManager != null)
+         if (_kassenManager != null)
          {
-            IList<Konto> konten = _dataManager.ListKonten();
+            IList<Konto> konten = _kassenManager.ListKonten();
             foreach (var konto in konten)
             {
                InsertKontoRow(konto);
@@ -69,7 +69,7 @@ namespace Kassenverwaltung.UI.Container
 
       private void SetButtonStates()
       {
-         bool contextValid = _dataManager != null;
+         bool contextValid = _kassenManager != null;
          bool kontoSelected = contextValid && (GetSelectedKonto() != null);
 
          btnAdd.Enabled = contextValid;
@@ -79,14 +79,14 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnClickedAdd(object sender, EventArgs e)
       {
-         if (_dataManager != null)
+         if (_kassenManager != null)
          {
             var neuesKonto = new Konto();
             using (var kontoEditor = new KontoEditor(neuesKonto))
             {
                if (kontoEditor.ShowDialog() == DialogResult.OK)
                {
-                  _dataManager.AddKonto(neuesKonto);
+                  _kassenManager.AddKonto(neuesKonto);
                   FillListBox();
                }
             }
@@ -95,14 +95,14 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnClickedDel(object sender, EventArgs e)
       {
-         if (_dataManager != null)
+         if (_kassenManager != null)
          {
             var selectedKonto = GetSelectedKonto();
             if (selectedKonto != null)
             {
                if (MessageService.ShowYesNo($"Möchten Sie das ausgewählte Konto '{selectedKonto.Name}' wirklich löschen?", "Löschen?"))
                {
-                  _dataManager.DeleteKonto(selectedKonto);
+                  _kassenManager.DeleteKonto(selectedKonto);
                   FillListBox();
                }
             }
@@ -116,7 +116,7 @@ namespace Kassenverwaltung.UI.Container
 
       private void EditSelectedKonto()
       {
-         if (_dataManager != null)
+         if (_kassenManager != null)
          {
             var selectedKonto = GetSelectedKonto();
             if (selectedKonto != null)
@@ -125,7 +125,7 @@ namespace Kassenverwaltung.UI.Container
                {
                   if (kontoEditor.ShowDialog() == DialogResult.OK)
                   {
-                     _dataManager.UpdateKonto(selectedKonto);
+                     _kassenManager.UpdateKonto(selectedKonto);
                      FillListBox();
                   }
                }

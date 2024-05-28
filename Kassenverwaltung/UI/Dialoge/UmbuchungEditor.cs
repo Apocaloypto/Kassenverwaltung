@@ -21,16 +21,16 @@ namespace Kassenverwaltung.UI.Dialoge
          }
       }
 
-      private KVManager DataManger { get; }
+      private KassenManager KassenManger { get; }
       private Konto Konto { get; }
       public Konto? ZielKonto { get; private set; }
       public Bewegung Umbuchung { get; }
 
-      public UmbuchungEditor(KVManager dataManager, Konto konto, Bewegung umbuchung)
+      public UmbuchungEditor(KassenManager kassenManager, Konto konto, Bewegung umbuchung)
       {
          InitializeComponent();
 
-         DataManger = dataManager;
+         KassenManger = kassenManager;
          Konto = konto;
          Umbuchung = umbuchung;
 
@@ -51,7 +51,7 @@ namespace Kassenverwaltung.UI.Dialoge
       {
          if (Umbuchung.iBewegung.HasValue)
          {
-            ZielKonto = DataManger.FindKontoZuBewegung(Umbuchung.iBewegung.Value);
+            ZielKonto = KassenManger.FindKontoZuBewegung(Umbuchung.iBewegung.Value);
             if (ZielKonto != null)
             {
                cbxKonto.SelectItem((KontoComboboxItem item) => item.Konto.Id == ZielKonto.Id);
@@ -63,7 +63,7 @@ namespace Kassenverwaltung.UI.Dialoge
       private void FillKontoCombobox()
       {
          cbxKonto.Items.Clear();
-         IList<Konto> konten = DataManger.ListKonten();
+         IList<Konto> konten = KassenManger.ListKonten();
          foreach (var konto in konten)
          {
             if (konto.Id == Konto.Id)

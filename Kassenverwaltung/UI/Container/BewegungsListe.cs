@@ -6,7 +6,7 @@ namespace Kassenverwaltung.UI.Container
 {
    public partial class BewegungsListe : UserControl
    {
-      private KVManager? _dataManager;
+      private KassenManager? _kassenManager;
       private Konto? _konto;
 
       public event EventHandler<Bewegung?>? SelectedBewegungChanged;
@@ -22,9 +22,9 @@ namespace Kassenverwaltung.UI.Container
          SetButtonStates();
       }
 
-      public void SetCurrentDatabase(KVManager? dataManager)
+      public void SetCurrentKassenManager(KassenManager? kassenManager)
       {
-         _dataManager = dataManager;
+         _kassenManager = kassenManager;
          FillListBox();
          SetButtonStates();
       }
@@ -50,7 +50,7 @@ namespace Kassenverwaltung.UI.Container
 
       private void SetButtonStates()
       {
-         bool validContext = _dataManager != null && _konto != null;
+         bool validContext = _kassenManager != null && _konto != null;
          bool bewegungSelected = validContext && GetSelectedBewegung() != null;
 
          splAdd.Enabled = validContext;
@@ -76,9 +76,9 @@ namespace Kassenverwaltung.UI.Container
          int? currentlySelectedBewegung = GetSelectedBewegung()?.Id;
          lstBewegungen.Items.Clear();
 
-         if (_dataManager != null && _konto != null)
+         if (_kassenManager != null && _konto != null)
          {
-            IList<Bewegung> bewegungen = _dataManager.ListBewegungen(_konto);
+            IList<Bewegung> bewegungen = _kassenManager.ListBewegungen(_konto);
             foreach (var bewegung in bewegungen)
             {
                InsertBewegungRow(bewegung);
@@ -98,9 +98,9 @@ namespace Kassenverwaltung.UI.Container
 
       private decimal CalculateCurrentKontostand(IList<Bewegung> bewegungen)
       {
-         if (_dataManager != null && _konto != null)
+         if (_kassenManager != null && _konto != null)
          {
-            return _dataManager.CalculateCurrentKontostand(_konto);
+            return _kassenManager.CalculateCurrentKontostand(_konto);
          }
          else
          {
@@ -110,14 +110,14 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnUmbuchungButtonClicked(object? sender, EventArgs? e)
       {
-         if (_dataManager != null && _konto != null)
+         if (_kassenManager != null && _konto != null)
          {
             var umbuchung = new Bewegung();
-            using (var editor = new UmbuchungEditor(_dataManager, _konto, umbuchung))
+            using (var editor = new UmbuchungEditor(_kassenManager, _konto, umbuchung))
             {
                if (editor.ShowDialog() == DialogResult.OK && editor.ZielKonto != null)
                {
-                  _dataManager.AddUmbuchung(umbuchung, _konto, editor.ZielKonto);
+                  _kassenManager.AddUmbuchung(umbuchung, _konto, editor.ZielKonto);
                   FillListBox();
                }
             }
@@ -126,14 +126,14 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnMainButtonClicked(object sender, EventArgs e)
       {
-         if (_dataManager != null && _konto != null)
+         if (_kassenManager != null && _konto != null)
          {
             var bewegung = new Bewegung();
-            using (var editor = new BewegungEditor(_dataManager, _konto, bewegung))
+            using (var editor = new BewegungEditor(_kassenManager, _konto, bewegung))
             {
                if (editor.ShowDialog() == DialogResult.OK)
                {
-                  _dataManager.AddBewegung(bewegung, _konto);
+                  _kassenManager.AddBewegung(bewegung, _konto);
                   FillListBox();
                }
             }
@@ -147,29 +147,29 @@ namespace Kassenverwaltung.UI.Container
 
       private void EditSelectedBuchung()
       {
-         if (_dataManager != null && _konto != null)
+         if (_kassenManager != null && _konto != null)
          {
             Bewegung? selectedBewegung = GetSelectedBewegung();
             if (selectedBewegung != null)
             {
                if (selectedBewegung.Art == Bewegung.ArtEnum.EinAuszahlung)
                {
-                  using (var editor = new BewegungEditor(_dataManager, _konto, selectedBewegung))
+                  using (var editor = new BewegungEditor(_kassenManager, _konto, selectedBewegung))
                   {
                      if (editor.ShowDialog() == DialogResult.OK)
                      {
-                        _dataManager.UpdateBewegung(selectedBewegung);
+                        _kassenManager.UpdateBewegung(selectedBewegung);
                         FillListBox();
                      }
                   }
                }
                else if (selectedBewegung.Art == Bewegung.ArtEnum.Umbuchung)
                {
-                  using (var editor = new UmbuchungEditor(_dataManager, _konto, selectedBewegung))
+                  using (var editor = new UmbuchungEditor(_kassenManager, _konto, selectedBewegung))
                   {
                      if (editor.ShowDialog() == DialogResult.OK)
                      {
-                        _dataManager.UpdateUmbuchung(selectedBewegung);
+                        _kassenManager.UpdateUmbuchung(selectedBewegung);
                         FillListBox();
                      }
                   }
@@ -180,7 +180,7 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnBtnClickedDel(object sender, EventArgs e)
       {
-         if (_dataManager != null)
+         if (_kassenManager != null)
          {
             Bewegung? selectedBewegung = GetSelectedBewegung();
             if (selectedBewegung != null)
@@ -189,11 +189,11 @@ namespace Kassenverwaltung.UI.Container
                {
                   if (selectedBewegung.Art == Bewegung.ArtEnum.EinAuszahlung)
                   {
-                     _dataManager.DeleteBewegung(selectedBewegung);
+                     _kassenManager.DeleteBewegung(selectedBewegung);
                   }
                   else if (selectedBewegung.Art == Bewegung.ArtEnum.Umbuchung)
                   {
-                     _dataManager.DeleteUmbuchung(selectedBewegung);
+                     _kassenManager.DeleteUmbuchung(selectedBewegung);
                   }
 
                   FillListBox();

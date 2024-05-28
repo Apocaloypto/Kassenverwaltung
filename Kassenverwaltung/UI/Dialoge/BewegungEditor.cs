@@ -28,15 +28,15 @@ namespace Kassenverwaltung.UI.Dialoge
          }
       }
 
-      private KVManager DataManager { get; }
+      private KassenManager KassenManager { get; }
       private Konto Konto { get; }
       public Bewegung Bewegung { get; }
 
-      public BewegungEditor(KVManager dataManager, Konto konto, Bewegung bewegung)
+      public BewegungEditor(KassenManager kassenManager, Konto konto, Bewegung bewegung)
       {
          InitializeComponent();
 
-         DataManager = dataManager;
+         KassenManager = kassenManager;
          Konto = konto;
          Bewegung = bewegung;
 
@@ -62,7 +62,7 @@ namespace Kassenverwaltung.UI.Dialoge
       {
          cbxKategorie.Items.Clear();
 
-         IList<Kategorie> kategorien = DataManager.ListKategorien();
+         IList<Kategorie> kategorien = KassenManager.ListKategorien();
          InsertKategorie(null);
          foreach (var kategorie in kategorien)
          {

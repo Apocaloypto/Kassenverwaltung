@@ -5,15 +5,15 @@ namespace Kassenverwaltung.UI.Dialoge
 {
    public partial class KategorienListe : Form
    {
-      private readonly KVManager _kvManager;
+      private readonly KassenManager _kassenManager;
 
       public bool HasChanged { get; private set; }
 
-      public KategorienListe(KVManager kVManager)
+      public KategorienListe(KassenManager kassenManager)
       {
          InitializeComponent();
 
-         _kvManager = kVManager;
+         _kassenManager = kassenManager;
          FillListControl();
          SetButtonStates();
       }
@@ -50,7 +50,7 @@ namespace Kassenverwaltung.UI.Dialoge
       {
          lstKategorien.Items.Clear();
 
-         IList<Kategorie> kategorien = _kvManager.ListKategorien();
+         IList<Kategorie> kategorien = _kassenManager.ListKategorien();
          foreach (var kategorie in kategorien)
          {
             InsertKategorie(kategorie);
@@ -64,7 +64,7 @@ namespace Kassenverwaltung.UI.Dialoge
          {
             if (editor.ShowDialog() == DialogResult.OK)
             {
-               _kvManager.AddKategorie(kategorie);
+               _kassenManager.AddKategorie(kategorie);
                HasChanged = true;
                FillListControl();
             }
@@ -80,7 +80,7 @@ namespace Kassenverwaltung.UI.Dialoge
             {
                if (editor.ShowDialog() == DialogResult.OK)
                {
-                  _kvManager.UpdateKategorie(selectedKat);
+                  _kassenManager.UpdateKategorie(selectedKat);
                   HasChanged = true;
                   FillListControl();
                }
@@ -95,7 +95,7 @@ namespace Kassenverwaltung.UI.Dialoge
          {
             if (MessageService.ShowYesNo($"Möchten Sie die ausgewählte Kategorie '{selectedKat.Name}' wirklich löschen?", "Löschen?"))
             {
-               _kvManager.DeleteKategorie(selectedKat);
+               _kassenManager.DeleteKategorie(selectedKat);
                HasChanged = true;
                FillListControl();
             }

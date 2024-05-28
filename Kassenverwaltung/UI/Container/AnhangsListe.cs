@@ -6,7 +6,7 @@ namespace Kassenverwaltung.UI.Container
 {
    public partial class AnhangsListe : UserControl
    {
-      public KVManager? DataManager { get; private set; }
+      private KassenManager? _kassenManager;
       public Bewegung? Bewegung { get; private set; }
 
       public AnhangsListe()
@@ -19,10 +19,10 @@ namespace Kassenverwaltung.UI.Container
          SetButtonStates();
       }
 
-      public void SetCurrentDatabase(KVManager? dataManager)
+      public void SetCurrentKassenManager(KassenManager? kassenManager)
       {
          TempFileHelper.Inst.TryDeleteTempFiles();
-         DataManager = dataManager;
+         _kassenManager = kassenManager;
          FillListBox();
          SetButtonStates();
       }
@@ -49,7 +49,7 @@ namespace Kassenverwaltung.UI.Container
 
       private void SetButtonStates()
       {
-         bool validContext = DataManager != null && Bewegung != null;
+         bool validContext = _kassenManager != null && Bewegung != null;
          Beleg? selectedBeleg = GetSelectedBeleg();
          bool anhangSelected = validContext && selectedBeleg != null;
 
@@ -65,9 +65,9 @@ namespace Kassenverwaltung.UI.Container
          int? currentlySelectedBeleg = GetSelectedBeleg()?.Id;
          lstAnhaenge.Items.Clear();
 
-         if (DataManager != null && Bewegung != null)
+         if (_kassenManager != null && Bewegung != null)
          {
-            IList<Beleg> belege = DataManager.ListBelege(Bewegung);
+            IList<Beleg> belege = _kassenManager.ListBelege(Bewegung);
             foreach (var beleg in belege)
             {
                InsertBeleg(beleg);
@@ -95,14 +95,14 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnClickedDel(object sender, EventArgs e)
       {
-         if (DataManager != null && Bewegung != null)
+         if (_kassenManager != null && Bewegung != null)
          {
             Beleg? selectedBeleg = GetSelectedBeleg();
             if (selectedBeleg != null)
             {
                if (MessageService.ShowYesNo($"Möchten Sie den ausgewählten Beleg '{selectedBeleg.Name}' wirklich löschen?", "Löschen?"))
                {
-                  DataManager.DeleteBeleg(selectedBeleg);
+                  _kassenManager.DeleteBeleg(selectedBeleg);
                   FillListBox();
                }
             }
@@ -116,7 +116,7 @@ namespace Kassenverwaltung.UI.Container
 
       private void EditSelectedBeleg()
       {
-         if (DataManager != null && Bewegung != null)
+         if (_kassenManager != null && Bewegung != null)
          {
             Beleg? selectedBeleg = GetSelectedBeleg();
             if (selectedBeleg != null)
@@ -125,7 +125,7 @@ namespace Kassenverwaltung.UI.Container
                {
                   if (editor.ShowDialog() == DialogResult.OK)
                   {
-                     DataManager.UpdateBeleg(selectedBeleg);
+                     _kassenManager.UpdateBeleg(selectedBeleg);
                      FillListBox();
                   }
                }
@@ -135,14 +135,14 @@ namespace Kassenverwaltung.UI.Container
 
       private void OnClickedAdd(object sender, EventArgs e)
       {
-         if (DataManager != null && Bewegung != null)
+         if (_kassenManager != null && Bewegung != null)
          {
             var beleg = new Beleg();
             using (var editor = new AnhangEditor(beleg))
             {
                if (editor.ShowDialog() == DialogResult.OK)
                {
-                  DataManager.AddBeleg(Bewegung, beleg);
+                  _kassenManager.AddBeleg(Bewegung, beleg);
                   FillListBox();
                }
             }

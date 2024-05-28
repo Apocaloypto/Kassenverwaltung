@@ -4,37 +4,37 @@ namespace Kassenverwaltung.Util
 {
    public class StammdatenImporter
    {
-      private readonly KVManager DataManager;
-      private readonly string SourceFile;
+      private readonly KassenManager _kassenManager;
+      private readonly string _sourceFile;
 
-      public StammdatenImporter(KVManager dataManager, string sourceFile)
+      public StammdatenImporter(KassenManager kassenManager, string sourceFile)
       {
-         DataManager = dataManager;
-         SourceFile = sourceFile;
+         _kassenManager = kassenManager;
+         _sourceFile = sourceFile;
       }
 
       public StammdatenImportResult ImportData()
       {
-         var otherManager = new KVManager(SourceFile);
+         var otherManager = new KassenManager(_sourceFile);
 
          return new StammdatenImportResult(ImportiereKonten(otherManager), ImportiereKategorien(otherManager));
       }
 
-      private int ImportiereKategorien(KVManager otherManager)
+      private int ImportiereKategorien(KassenManager otherManager)
       {
          IList<Kategorie> kategorien = otherManager.ListKategorien();
 
          int importiert = 0;
          foreach (var kategorie in kategorien)
          {
-            DataManager.AddKategorie(kategorie);
+            _kassenManager.AddKategorie(kategorie);
             importiert++;
          }
 
          return importiert;
       }
 
-      private int ImportiereKonten(KVManager otherManager)
+      private int ImportiereKonten(KassenManager otherManager)
       {
          IList<Konto> konten = otherManager.ListKonten();
 
@@ -42,7 +42,7 @@ namespace Kassenverwaltung.Util
          foreach (var konto in konten)
          {
             konto.Anfangsbestand = otherManager.CalculateCurrentKontostand(konto);
-            DataManager.AddKonto(konto);
+            _kassenManager.AddKonto(konto);
             importiert++;
          }
 

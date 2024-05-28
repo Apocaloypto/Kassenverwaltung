@@ -5,11 +5,11 @@ using System.Globalization;
 
 namespace Kassenverwaltung.Util
 {
-   public class KVManager
+   public class KassenManager
    {
       private KVDatabase _database;
 
-      public KVManager(string filename)
+      public KassenManager(string filename)
       {
          _database = new KVDatabase($"Data Source={filename}");
          _database.EnsureExists();
