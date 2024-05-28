@@ -29,6 +29,7 @@ namespace Kassenverwaltung.UI.Dialoge
          InitializeComponent();
 
          FillFormateCbx();
+         cbxFormat.SelectItem((ImportFormatComboboxItem item) => item?.Format == ImportFormat.CsvCamtv2);
       }
 
       private void FillFormateCbx()
