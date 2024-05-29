@@ -125,6 +125,7 @@
          AutoScaleMode = AutoScaleMode.Font;
          ClientSize = new Size(800, 450);
          Controls.Add(tableLayoutPanel1);
+         MinimumSize = new Size(800, 400);
          Name = "KategorienListe";
          ShowIcon = false;
          StartPosition = FormStartPosition.CenterParent;

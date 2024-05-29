@@ -183,6 +183,7 @@
          CancelButton = btnCancel;
          ClientSize = new Size(399, 321);
          Controls.Add(tableLayoutPanel1);
+         MinimumSize = new Size(415, 360);
          Name = "UmbuchungEditor";
          ShowIcon = false;
          StartPosition = FormStartPosition.CenterParent;

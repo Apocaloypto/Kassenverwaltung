@@ -160,6 +160,7 @@
          CancelButton = btnCancel;
          ClientSize = new Size(392, 178);
          Controls.Add(tableLayoutPanel1);
+         MinimumSize = new Size(400, 215);
          Name = "AnhangEditor";
          ShowIcon = false;
          StartPosition = FormStartPosition.CenterParent;

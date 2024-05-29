@@ -148,6 +148,7 @@
          CancelButton = btnCancel;
          ClientSize = new Size(399, 131);
          Controls.Add(tableLayoutPanel1);
+         MinimumSize = new Size(415, 170);
          Name = "BewegungsImporter";
          ShowIcon = false;
          StartPosition = FormStartPosition.CenterParent;

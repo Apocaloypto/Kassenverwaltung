@@ -139,6 +139,7 @@
          CancelButton = btnCancel;
          ClientSize = new Size(800, 450);
          Controls.Add(tableLayoutPanel1);
+         MinimumSize = new Size(800, 400);
          Name = "BewegungsDatensaetze";
          ShowIcon = false;
          StartPosition = FormStartPosition.CenterParent;

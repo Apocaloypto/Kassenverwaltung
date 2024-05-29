@@ -178,6 +178,7 @@
          CancelButton = btnCancel;
          ClientSize = new Size(390, 196);
          Controls.Add(tableLayoutPanel1);
+         MinimumSize = new Size(400, 235);
          Name = "KontoEditor";
          ShowIcon = false;
          StartPosition = FormStartPosition.CenterParent;

@@ -54,7 +54,7 @@
          tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
          tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
          tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-         tableLayoutPanel1.Size = new Size(359, 82);
+         tableLayoutPanel1.Size = new Size(360, 82);
          tableLayoutPanel1.TabIndex = 0;
          // 
          // label1
@@ -73,13 +73,13 @@
          tbxBezeichnung.Dock = DockStyle.Fill;
          tbxBezeichnung.Location = new Point(153, 3);
          tbxBezeichnung.Name = "tbxBezeichnung";
-         tbxBezeichnung.Size = new Size(203, 23);
+         tbxBezeichnung.Size = new Size(204, 23);
          tbxBezeichnung.TabIndex = 1;
          // 
          // btnOK
          // 
          btnOK.Dock = DockStyle.Fill;
-         btnOK.Location = new Point(162, 55);
+         btnOK.Location = new Point(163, 55);
          btnOK.Name = "btnOK";
          btnOK.Size = new Size(94, 24);
          btnOK.TabIndex = 2;
@@ -90,7 +90,7 @@
          // btnCancel
          // 
          btnCancel.Dock = DockStyle.Fill;
-         btnCancel.Location = new Point(262, 55);
+         btnCancel.Location = new Point(263, 55);
          btnCancel.Name = "btnCancel";
          btnCancel.Size = new Size(94, 24);
          btnCancel.TabIndex = 3;
@@ -103,8 +103,9 @@
          AutoScaleDimensions = new SizeF(7F, 15F);
          AutoScaleMode = AutoScaleMode.Font;
          CancelButton = btnCancel;
-         ClientSize = new Size(383, 106);
+         ClientSize = new Size(384, 106);
          Controls.Add(tableLayoutPanel1);
+         MinimumSize = new Size(400, 145);
          Name = "KategorieEditor";
          ShowIcon = false;
          StartPosition = FormStartPosition.CenterScreen;
