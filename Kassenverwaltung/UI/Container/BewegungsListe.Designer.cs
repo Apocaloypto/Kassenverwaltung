@@ -72,6 +72,7 @@
          tableLayoutPanel1.SetColumnSpan(lstBewegungen, 6);
          lstBewegungen.Dock = DockStyle.Fill;
          lstBewegungen.FullRowSelect = true;
+         lstBewegungen.GridLines = true;
          lstBewegungen.Location = new Point(3, 3);
          lstBewegungen.Name = "lstBewegungen";
          lstBewegungen.Size = new Size(474, 266);

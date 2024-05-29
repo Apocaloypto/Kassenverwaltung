@@ -64,6 +64,7 @@
          tableLayoutPanel1.SetColumnSpan(lstKonten, 4);
          lstKonten.Dock = DockStyle.Fill;
          lstKonten.FullRowSelect = true;
+         lstKonten.GridLines = true;
          lstKonten.Location = new Point(3, 3);
          lstKonten.Name = "lstKonten";
          lstKonten.Size = new Size(414, 234);

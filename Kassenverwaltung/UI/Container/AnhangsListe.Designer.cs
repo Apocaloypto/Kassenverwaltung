@@ -106,6 +106,7 @@
          tableLayoutPanel1.SetColumnSpan(lstAnhaenge, 6);
          lstAnhaenge.Dock = DockStyle.Fill;
          lstAnhaenge.FullRowSelect = true;
+         lstAnhaenge.GridLines = true;
          lstAnhaenge.Location = new Point(3, 3);
          lstAnhaenge.Name = "lstAnhaenge";
          lstAnhaenge.Size = new Size(385, 230);
