@@ -12,6 +12,14 @@ namespace Kassenverwaltung.Util.Exporter.ODSFormat.Cells
          Text = text;
       }
 
+      public static string XmlEscape(string unescaped)
+      {
+         var doc = new System.Xml.XmlDocument();
+         var node = doc.CreateElement("root");
+         node.InnerText = unescaped;
+         return node.InnerXml;
+      }
+
       public override void Export(XmlNode parentNode)
       {
          XmlNode cellNode = parentNode.AddNode("table:table-cell");
@@ -19,7 +27,7 @@ namespace Kassenverwaltung.Util.Exporter.ODSFormat.Cells
          cellNode.AddAttribute("calcext:value-type", "string");
 
          XmlNode valueNode = cellNode.AddNode("text:p");
-         valueNode.SetText(Text);
+         valueNode.SetText(XmlEscape(Text));
       }
    }
 }

@@ -89,6 +89,12 @@ namespace Kassenverwaltung.Util
          return bewegungen.OrderBy(b => b.Datum).ToList();
       }
 
+      public IList<Bewegung> ListBewegungen()
+      {
+         IList<Bewegung> bewegungen = _database.Bewegungen.Select();
+         return bewegungen.OrderBy(b => b.Datum).ToList();
+      }
+
       public IList<Kategorie> ListKategorien()
       {
          return _database.Kategorien.Select();
