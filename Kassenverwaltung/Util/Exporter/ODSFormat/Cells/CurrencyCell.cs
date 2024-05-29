@@ -1,4 +1,5 @@
 ﻿using Kassenverwaltung.Util.Exporter.ODSFormat.XmlHelper;
+using System.Globalization;
 
 namespace Kassenverwaltung.Util.Exporter.ODSFormat.Cells
 {
@@ -20,7 +21,7 @@ namespace Kassenverwaltung.Util.Exporter.ODSFormat.Cells
          cellNode.AddAttribute("table:style-name", STYLE_NAME);
          cellNode.AddAttribute("office:value-type", "currency");
          cellNode.AddAttribute("office:currency", "EUR");
-         cellNode.AddAttribute("office:value", Value.ToString("F2"));
+         cellNode.AddAttribute("office:value", Value.ToString("F2", CultureInfo.InvariantCulture));
          cellNode.AddAttribute("calcext:value-type", "currency");
 
          XmlNode valueNode = cellNode.AddNode("text:p");
