@@ -39,6 +39,7 @@
          btnEdit = new Button();
          btnDel = new Button();
          splAdd = new UserControls.SplitButton();
+         colKategorie = new ColumnHeader();
          tableLayoutPanel1.SuspendLayout();
          SuspendLayout();
          // 
@@ -68,7 +69,7 @@
          // 
          // lstBewegungen
          // 
-         lstBewegungen.Columns.AddRange(new ColumnHeader[] { colLfdNr, colDatum, colVerwendung, colBetrag });
+         lstBewegungen.Columns.AddRange(new ColumnHeader[] { colLfdNr, colDatum, colVerwendung, colKategorie, colBetrag });
          tableLayoutPanel1.SetColumnSpan(lstBewegungen, 6);
          lstBewegungen.Dock = DockStyle.Fill;
          lstBewegungen.FullRowSelect = true;
@@ -150,6 +151,10 @@
          splAdd.TabIndex = 6;
          splAdd.MainButtonClick += OnMainButtonClicked;
          // 
+         // colKategorie
+         // 
+         colKategorie.Text = "Kategorie";
+         // 
          // BewegungsListe
          // 
          AutoScaleDimensions = new SizeF(7F, 15F);
@@ -175,5 +180,6 @@
       private Button btnEdit;
       private Button btnDel;
       private UserControls.SplitButton splAdd;
+      private ColumnHeader colKategorie;
    }
 }

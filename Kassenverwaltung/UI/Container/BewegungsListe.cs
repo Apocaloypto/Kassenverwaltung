@@ -58,17 +58,44 @@ namespace Kassenverwaltung.UI.Container
          btnDel.Enabled = bewegungSelected;
       }
 
-      private void InsertBewegungRow(Bewegung bewegung)
+      private void InsertBewegungRow(IDictionary<int, Kategorie> kategorien, Bewegung bewegung)
       {
          int lfdNr = lstBewegungen.Items.Count + 1;
 
          ListViewItem lvi = new ListViewItem($"{lfdNr}");
          lvi.SubItems.Add(bewegung.Datum.ToString($"dd.MM.yyyy"));
          lvi.SubItems.Add(bewegung.Verwendung);
+         lvi.SubItems.Add(GetKategorie(kategorien, bewegung));
          lvi.SubItems.Add($"{bewegung.Betrag:C}");
          lvi.Tag = bewegung;
 
          lstBewegungen.Items.Add(lvi);
+      }
+
+      private IDictionary<int, Kategorie> LoadKategorien()
+      {
+         if (_kassenManager != null)
+         {
+            IList<Kategorie> kategorien = _kassenManager.ListKategorien();
+            return kategorien.ToDictionary(k => k.Id, k => k);
+         }
+         else
+         {
+            throw new InvalidOperationException($"Keine Datei geöffnet!");
+         }
+      }
+
+      private string GetKategorie(IDictionary<int, Kategorie> kategorien, Bewegung bewegung)
+      {
+         if (bewegung.iKategorie.HasValue)
+         {
+            if (kategorien.TryGetValue(bewegung.iKategorie.Value, out Kategorie? kategorie) && !string.IsNullOrEmpty(kategorie.Name))
+            {
+               return kategorie.Name;
+            }
+         }
+
+         return "<ohne Kategorie>";
       }
 
       private void FillListBox()
@@ -78,10 +105,12 @@ namespace Kassenverwaltung.UI.Container
 
          if (_kassenManager != null && _konto != null)
          {
+            IDictionary<int, Kategorie> kategorien = LoadKategorien();
+
             IList<Bewegung> bewegungen = _kassenManager.ListBewegungen(_konto);
             foreach (var bewegung in bewegungen)
             {
-               InsertBewegungRow(bewegung);
+               InsertBewegungRow(kategorien, bewegung);
             }
 
             tbxKontostand.Text = $"{CalculateCurrentKontostand(bewegungen):C}";
